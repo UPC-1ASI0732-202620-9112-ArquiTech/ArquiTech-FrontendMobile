@@ -38,6 +38,15 @@ class ProjectsController extends StateNotifier<AsyncValue<List<Project>>> {
     }
   }
 
+  Future<void> delete(int id) async {
+    await _repository.deleteProject(id);
+    if (mounted) {
+      state = AsyncValue.data(
+        (state.valueOrNull ?? []).where((p) => p.id != id).toList(),
+      );
+    }
+  }
+
   Future<Project> create(CreateProjectRequest request) async {
     final project = await _repository.createProject(request);
     if (mounted) {

@@ -20,6 +20,9 @@ import 'package:arquitech/features/tasks/domain/entities/task.dart';
 import 'package:arquitech/features/incidents/domain/entities/incident.dart';
 import 'package:arquitech/features/workers/data/models/worker_model.dart';
 
+import 'package:arquitech/features/attendance/presentation/controllers/attendance_controller.dart';
+import 'package:arquitech/features/attendance/presentation/pages/attendance_page.dart';
+
 import '../auth/session_controller_test.dart';
 import '../support/fake_repositories.dart';
 import '../support/second_half_fixtures.dart';
@@ -28,6 +31,7 @@ Future<void> mount(
   WidgetTester tester,
   Widget page,
   UserRole role, {
+  FakeAttendanceRepository? attendance,
   FakeWorkerRepository? workers,
   FakeTaskRepository? tasks,
   FakeIncidentRepository? incidents,
@@ -49,6 +53,9 @@ Future<void> mount(
       overrides: [
         sessionControllerProvider.overrideWith((ref) => session),
         preferencesStorageProvider.overrideWithValue(FakePreferences()),
+        attendanceRepositoryProvider.overrideWithValue(
+          attendance ?? FakeAttendanceRepository(),
+        ),
         workerRepositoryProvider.overrideWithValue(
           workers ?? FakeWorkerRepository(),
         ),
@@ -88,6 +95,7 @@ Future<void> mount(
 
 void main() {
   final pages = <String, Widget>{
+    'attendance': const AttendancePage(projectId: 9),
     'workers': const WorkerPage(projectId: 9),
     'tasks': const TaskPage(projectId: 9),
     'incidents': const IncidentPage(projectId: 9),

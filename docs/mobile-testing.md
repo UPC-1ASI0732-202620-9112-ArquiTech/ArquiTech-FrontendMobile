@@ -60,3 +60,12 @@ Las pruebas automáticas verifican comportamiento y contratos sin cuentas reales
 8. Editar perfil local, cambiar ES/EN y activar texto extra grande/contraste/reducción de movimiento; reiniciar.
 9. Contractor: recorrer todos los módulos y comprobar ausencia de acciones de escritura.
 10. Logout y sesión expirada: contexto/token eliminados y regreso a Login.
+
+
+## Ampliación: asistencia y eliminación de proyectos
+
+La suite ahora contiene 93 tests. Se añadieron parsing/estados de asistencia, horas UTC, fechas LocalDate, turnos nocturnos, campos administrados por el servidor, HTTP CRUD/filtro/204/403/409, errores ES/EN, formulario de alta, ausencia de acciones Contractor, confirmación por nombre, limpieza de ProjectContext y conservación de la lista tras un DELETE fallido. El router real incluye asistencia para ambos roles con texto 1.6. Los tests anteriores continúan pasando.
+
+Recorrido adicional: Personal → menú → Asistencia; registrar trabajador/fecha, editar y consultar historial; intentar duplicar; verificar que trabajador INACTIVE conserva historial sin recibir nuevos registros. Para eliminar una obra, ir a Proyectos y escribir su nombre en la confirmación. Probar primero con una obra de pruebas: elimina también sus datos asociados.
+
+Resultado final de esta ampliación: dart format . y flutter pub get aprobados; flutter analyze sin problemas; flutter test con 93 pruebas aprobadas; APK debug actualizado generado correctamente; git diff --check sin errores.

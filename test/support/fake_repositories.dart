@@ -17,6 +17,51 @@ import 'package:arquitech/features/projects/domain/repositories/project_reposito
 
 import 'second_half_fixtures.dart';
 
+import 'package:arquitech/features/attendance/domain/entities/attendance.dart';
+import 'package:arquitech/features/attendance/domain/entities/attendance_request.dart';
+import 'package:arquitech/features/attendance/domain/repositories/attendance_repository.dart';
+
+class FakeAttendanceRepository implements AttendanceRepository {
+  List<Attendance> items = [
+    Attendance(
+      id: 20,
+      projectId: 9,
+      workerId: 3,
+      workerName: 'Ana Torres',
+      attendanceDate: DateTime.now(),
+      status: AttendanceStatus.present,
+      registeredByUserId: 1,
+    ),
+  ];
+  AttendanceRequest? saved;
+  Object? failure;
+  @override
+  Future<List<Attendance>> list(int projectId, {DateTime? date}) async {
+    if (failure != null) throw failure!;
+    return items;
+  }
+
+  @override
+  Future<Attendance> create(AttendanceRequest request) async {
+    saved = request;
+    if (failure != null) throw failure!;
+    return items.first;
+  }
+
+  @override
+  Future<Attendance> update(int id, AttendanceRequest request) async {
+    saved = request;
+    if (failure != null) throw failure!;
+    return items.first;
+  }
+
+  @override
+  Future<void> delete(int id) async {
+    if (failure != null) throw failure!;
+    items = items.where((a) => a.id != id).toList();
+  }
+}
+
 class FakeWorkerRepository implements WorkerRepository {
   List<Worker> items = [sampleWorker];
   WorkerRequest? saved;
@@ -109,8 +154,16 @@ class FakeMaterialRepository implements MaterialRepository {
 }
 
 class FakeProjectRepository implements ProjectRepository {
+  List<Project> items = [sampleProject];
+  Object? failure;
   @override
-  Future<List<Project>> getProjects() async => [sampleProject];
+  Future<void> deleteProject(int id) async {
+    if (failure != null) throw failure!;
+    items = items.where((p) => p.id != id).toList();
+  }
+
+  @override
+  Future<List<Project>> getProjects() async => items;
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

@@ -7,9 +7,15 @@ import '../../../../core/widgets/app_status_chip.dart';
 import '../../domain/entities/project.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({super.key, required this.project, required this.onTap});
+  const ProjectCard({
+    super.key,
+    required this.project,
+    required this.onTap,
+    this.onDelete,
+  });
   final Project project;
   final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +64,15 @@ class ProjectCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text('${context.l10n.progress}: ${project.progress}%'),
+                  if (onDelete != null)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton.icon(
+                        onPressed: onDelete,
+                        icon: const Icon(Icons.delete_outline),
+                        label: Text(context.l10n.deleteProject),
+                      ),
+                    ),
                   const Divider(height: 28),
                   Row(
                     children: [

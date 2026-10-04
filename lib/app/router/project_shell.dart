@@ -9,7 +9,11 @@ class ProjectShell extends StatelessWidget {
   final Widget child;
 
   int _index(String path) {
-    if ((path.contains('/workers') || path.contains('/tasks'))) return 1;
+    if ((path.contains('/workers') ||
+        path.contains('/tasks') ||
+        path.contains('/attendance'))) {
+      return 1;
+    }
     if (path.contains('/incidents')) return 2;
     if (path.contains('/machinery')) return 3;
     if (path.contains('/more') ||

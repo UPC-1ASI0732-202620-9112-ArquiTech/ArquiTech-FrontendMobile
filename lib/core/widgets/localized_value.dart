@@ -1,6 +1,10 @@
 import '../../app/localization/app_localizations.dart';
 
 String localizedValue(AppLocalizations l, String value) => switch (value) {
+  'PRESENT' => l.attendancePresent,
+  'ABSENT' => l.attendanceAbsent,
+  'LATE' => l.attendanceLate,
+  'EXCUSED' => l.attendanceExcused,
   'ACTIVE' => l.valueActive,
   'ON_LEAVE' => l.valueOnLeave,
   'INACTIVE' => l.valueInactive,

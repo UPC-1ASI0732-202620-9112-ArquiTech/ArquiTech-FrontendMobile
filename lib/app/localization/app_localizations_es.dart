@@ -562,4 +562,68 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get valueOther => 'Otro';
+
+  @override
+  String get attendance => 'Asistencia';
+
+  @override
+  String get attendanceDate => 'Fecha de asistencia';
+
+  @override
+  String get attendancePresent => 'Presente';
+
+  @override
+  String get attendanceAbsent => 'Ausente';
+
+  @override
+  String get attendanceLate => 'Tardanza';
+
+  @override
+  String get attendanceExcused => 'Justificado';
+
+  @override
+  String get attendanceHistory => 'Todo el historial';
+
+  @override
+  String get checkIn => 'Entrada';
+
+  @override
+  String get checkOut => 'Salida';
+
+  @override
+  String get clearTime => 'Quitar hora';
+
+  @override
+  String get attendanceInvalidTimes =>
+      'La salida requiere entrada y no puede ser anterior.';
+
+  @override
+  String get attendanceBeforeHire =>
+      'La asistencia no puede ser anterior a la contratación.';
+
+  @override
+  String get errorDuplicateAttendance =>
+      'Ya existe asistencia para este trabajador en esa fecha. Edita el registro existente.';
+
+  @override
+  String get errorAttendanceNotFound =>
+      'El registro de asistencia ya no existe.';
+
+  @override
+  String get errorWorkerHasAttendance =>
+      'El trabajador tiene registros de asistencia. Márcalo como inactivo para conservar su historial o elimina primero esos registros.';
+
+  @override
+  String get deleteProject => 'Eliminar proyecto';
+
+  @override
+  String get deleteProjectWarning =>
+      'Esta acción es irreversible. Se eliminarán trabajadores, tareas, asistencia, materiales y movimientos, incidentes y maquinaria de esta obra.';
+
+  @override
+  String get confirmProjectName =>
+      'Escribe el nombre del proyecto para confirmar';
+
+  @override
+  String get projectDeleted => 'Proyecto eliminado';
 }

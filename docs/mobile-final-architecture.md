@@ -106,3 +106,12 @@ Backend local limpio en commit `a8bce9fccb6339404d6e2f16c7da915cc6c2b8a5`. Se le
 Web consultado en árbol `8330d9e7caf42ce8d7eef96bfeb65b7c22bec379`, especialmente los servicios de reportes/alertas y utilidades de fecha. Report se utilizó como referencia de navegación móvil y branding, manteniendo el Theme previo.
 
 No se modificaron Backend, Web ni Report.
+
+
+## Ampliación en main: asistencia y eliminación
+
+Attendance conserva Feature First y las mismas tres capas, con entidad/request separados, modelos de parsing/serialización, repository, datasource ApiClient, controller Riverpod, página y formulario. Se integra en el mismo router y dentro de Personal; no se agrega otra pestaña inferior. La pantalla permite búsqueda, estados, fecha o todo el historial y pull-to-refresh. Formularios y errores tienen traducciones ES/EN y estados de envío.
+
+Projects añade deleteProject en su repository existente y DELETE centralizado en ApiEndpoints. El diálogo exige el nombre exacto, bloquea doble envío y conserva errores del servidor. La lista se actualiza y se borra el ProjectContext de la obra eliminada tras recibir éxito. Contractor no ve el control.
+
+Se conserva la arquitectura de Parte 1 y los tests anteriores; los documentos de handoff describen su alcance histórico, anterior a estos nuevos endpoints.

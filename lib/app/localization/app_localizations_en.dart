@@ -559,4 +559,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueOther => 'Other';
+
+  @override
+  String get attendance => 'Attendance';
+
+  @override
+  String get attendanceDate => 'Attendance date';
+
+  @override
+  String get attendancePresent => 'Present';
+
+  @override
+  String get attendanceAbsent => 'Absent';
+
+  @override
+  String get attendanceLate => 'Late';
+
+  @override
+  String get attendanceExcused => 'Excused';
+
+  @override
+  String get attendanceHistory => 'Full history';
+
+  @override
+  String get checkIn => 'Check-in';
+
+  @override
+  String get checkOut => 'Check-out';
+
+  @override
+  String get clearTime => 'Clear time';
+
+  @override
+  String get attendanceInvalidTimes =>
+      'Check-out requires check-in and cannot precede it.';
+
+  @override
+  String get attendanceBeforeHire => 'Attendance cannot precede the hire date.';
+
+  @override
+  String get errorDuplicateAttendance =>
+      'Attendance already exists for this worker and date. Edit the existing record.';
+
+  @override
+  String get errorAttendanceNotFound =>
+      'The attendance record no longer exists.';
+
+  @override
+  String get errorWorkerHasAttendance =>
+      'This worker has attendance records. Mark them inactive to preserve history or delete those records first.';
+
+  @override
+  String get deleteProject => 'Delete project';
+
+  @override
+  String get deleteProjectWarning =>
+      'This action is irreversible. Workers, tasks, attendance, materials and movements, incidents and machinery of this project will be deleted.';
+
+  @override
+  String get confirmProjectName => 'Type the project name to confirm';
+
+  @override
+  String get projectDeleted => 'Project deleted';
 }

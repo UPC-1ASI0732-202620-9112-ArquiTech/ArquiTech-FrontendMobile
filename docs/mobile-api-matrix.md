@@ -2,7 +2,7 @@
 
 Prefijo común: `/api/v1`, definido por AppConfig. JSON canónico en camelCase. Todas las operaciones protegidas usan bearer JWT desde Secure Storage. Los permisos se refieren exclusivamente a proyectos accesibles por el principal.
 
-Backend verificado: `a8bce9fccb6339404d6e2f16c7da915cc6c2b8a5`.
+Contrato base verificado en `a8bce9f`, ampliado ahora en main con AttendanceController y DELETE de ProjectController.
 
 ## Endpoints usados
 
@@ -22,7 +22,7 @@ Backend verificado: `a8bce9fccb6339404d6e2f16c7da915cc6c2b8a5`.
 | GET | /workers?projectId={projectId} | Workers / Reports | Sí | Sí | Query projectId | 200: WorkerResource[] |
 | POST | /workers | Workers | Sí | No | projectId, fullName, role String, specialty, hireDate, status | 201: WorkerResource |
 | PUT | /workers/{id} | Workers | Sí | No | fullName, role String, specialty, hireDate, status | 200: WorkerResource |
-| DELETE | /workers/{id} | Workers | Sí | No | Path id | 204; puede fallar WORKER_HAS_TASKS |
+| DELETE | /workers/{id} | Workers | Sí | No | Path id | 204; puede fallar WORKER_HAS_TASKS o WORKER_HAS_ATTENDANCE |
 | GET | /tasks?projectId={projectId} | Tasks / Reports | Sí | Sí | Query projectId | 200: TaskResource[] |
 | POST | /tasks | Tasks | Sí | No | projectId, workerId, title, description, status, dueDate | 201: TaskResource |
 | PUT | /tasks/{id} | Tasks | Sí | No | workerId, title, description, status, dueDate | 200: TaskResource |
@@ -76,4 +76,30 @@ Errores tienen code, message, timestamp, path. ApiError conserva status HTTP; Er
 | PDF | Ninguno | Generar | No expuesto | pdf + printing + Noto Sans local; sin upload |
 | Alerts aggregation | Ninguno nuevo | Leer | Leer | Material.stock < minimumStock; Incident.severity HIGH y no RESOLVED |
 
-No se emiten solicitudes PUT/DELETE Project, GET Project individual, Attendance, actualización REST de Profile, Notifications, Reports, PDF remoto o Password Recovery. UserResource carece de company; la edición remota de Profile necesita un endpoint futuro.
+No se emiten solicitudes PUT Project, GET Project individual, actualización REST de Profile, Notifications, Reports, PDF remoto o Password Recovery. UserResource carece de company; la edición remota de Profile necesita un endpoint futuro.
+
+
+## Asistencia y eliminación de proyectos (4 de octubre de 2026)
+
+Todas las rutas tienen prefijo /api/v1 y requieren JWT. Supervisor escribe únicamente en sus obras; Contractor consulta las obras donde está asignado. Backend aplica permisos y scope, independientemente de la UI.
+
+| Método | Endpoint | Supervisor | Contractor | Request | Response |
+|---|---|---|---|---|---|
+| DELETE | /projects/{id} | Propietario | No (403) | Sin body | 204 |
+| GET | /attendance?projectId=X&date=YYYY-MM-DD | Leer | Leer | projectId requerido; date opcional | 200: AttendanceResource[] |
+| POST | /attendance | Crear | No (403) | projectId, workerId, attendanceDate, status, checkInAt opcional, checkOutAt opcional, notes opcional | 201: AttendanceResource |
+| PUT | /attendance/{id} | Editar | No (403) | workerId, attendanceDate, status, checkInAt opcional, checkOutAt opcional, notes opcional | 200: AttendanceResource |
+| DELETE | /attendance/{id} | Eliminar | No (403) | Sin body | 204 |
+
+AttendanceResource: id, projectId, workerId, workerName, attendanceDate, status, checkInAt, checkOutAt, notes, registeredByUserId, createdAt, updatedAt.
+
+- Estados: PRESENT, ABSENT, LATE, EXCUSED (presente, ausente, tardanza, justificado).
+- attendanceDate es la fecha de la jornada, YYYY-MM-DD. Los instantes de entrada y salida son ISO-8601 UTC; Web y Mobile presentan la hora local y permiten turnos que cruzan medianoche.
+- Un solo registro por trabajador/fecha, protegido por constraint de base de datos. Duplicados devuelven 409 DUPLICATE_ATTENDANCE.
+- La salida requiere entrada y no puede precederla. ABSENT y EXCUSED no admiten horas. Notes tiene máximo 1000 caracteres.
+- El trabajador debe pertenecer a la obra; la fecha no puede preceder su contratación. No se crean registros nuevos para INACTIVE, pero puede corregirse su historial existente.
+- No se envían registeredByUserId, workerName, createdAt ni updatedAt: son administrados por el servidor. PUT no admite cambio de projectId.
+- Eliminar un trabajador con asistencia devuelve 409 WORKER_HAS_ATTENDANCE; puede marcarse INACTIVE para preservar su historial.
+- La eliminación del proyecto elimina asistencia, tareas, trabajadores, movimientos/materiales, maquinaria e incidentes de esa obra; conserva usuarios y otras obras. Todo ocurre en una transacción y se revierte completamente si falla un paso.
+- Ambas interfaces requieren escribir el nombre exacto de la obra para confirmar su borrado. El contexto local de esa obra se limpia tras el éxito.
+- Las escrituras bloquean el proyecto antes de modificar sus recursos para evitar datos huérfanos durante una eliminación simultánea. Materiales bloquea proyecto antes de material.

@@ -2,6 +2,11 @@ abstract final class ApiEndpoints {
   static const signIn = '/authentication/sign-in';
   static const users = '/users';
   static const projects = '/projects';
+  static String project(int id) => '/projects/$id';
+  static const attendance = '/attendance';
+  static String attendanceRecord(int id) => '/attendance/$id';
+  static String attendanceList(int projectId, {DateTime? date}) =>
+      '/attendance?projectId=$projectId${date == null ? '' : '&date=${date.toIso8601String().split('T').first}'}';
   static String supervisorProjects(int userId) =>
       '/projects/supervisor/$userId';
   static const materials = '/materials';

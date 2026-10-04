@@ -26,9 +26,10 @@ Android permite tráfico HTTP solo a `10.0.2.2`; el resto requiere HTTPS. La apl
 ## Funcionalidad
 
 - Login JWT, restauración de sesión, expiración por 401, manejo de 403 y logout.
-- Proyectos: lectura para ambos roles y creación para Supervisor.
+- Proyectos: lectura para ambos roles; creación y eliminación confirmada para Supervisor. El borrado elimina los registros de la obra.
 - Materiales: inventario, CRUD, entradas, usos e historial.
 - Personal: trabajadores con búsqueda y filtros, tareas, asignación, vencimientos y finalización.
+- Asistencia diaria: presente, ausente, tardanza o justificado; fecha, horas opcionales, observaciones, historial y CRUD para Supervisor. Contractor consulta.
 - Incidentes: severidad, estados, CRUD y resolución.
 - Maquinaria: CRUD, estados y validación de series en mayúsculas.
 - Reportes semanales equivalentes al Web; Supervisor genera PDF local con branding ARQUITECH y fuentes incluidas.
@@ -40,11 +41,11 @@ Supervisor administra los registros de sus obras. Contractor accede a lectura, r
 
 ## Navegación
 
-Projects es el nivel superior. Dentro de una obra hay cinco destinos: Materiales, Personal, Incidentes, Maquinaria y Más. Personal abre Trabajadores y desde allí Tareas. Más contiene Reportes, Perfil, Configuración, Alertas, Volver a Proyectos y Cerrar sesión.
+Projects es el nivel superior. Dentro de una obra hay cinco destinos: Materiales, Personal, Incidentes, Maquinaria y Más. Personal abre Trabajadores y desde su menú se accede a Tareas y Asistencia. Más contiene Reportes, Perfil, Configuración, Alertas, Volver a Proyectos y Cerrar sesión.
 
 ## Operaciones locales y límites del Backend
 
-Perfil y preferencias se guardan en SharedPreferences; el JWT se guarda exclusivamente en Secure Storage. El Backend no publica actualización HTTP de perfil, ni endpoints de reportes, PDF o notificaciones. Reportes y alertas se calculan usando los recursos existentes. No hay asistencia, recuperación remota de contraseña ni actualización/eliminación de proyectos.
+Perfil y preferencias se guardan en SharedPreferences; el JWT se guarda exclusivamente en Secure Storage. El Backend no publica actualización HTTP de perfil, ni endpoints de reportes, PDF o notificaciones. Reportes y alertas se calculan usando los recursos existentes. La ampliación actual incluye asistencia y eliminación de proyectos mediante endpoints reales. No hay recuperación remota de contraseña ni actualización de proyectos.
 
 ## Calidad
 

@@ -1177,6 +1177,120 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Otro'**
   String get valueOther;
+
+  /// No description provided for @attendance.
+  ///
+  /// In es, this message translates to:
+  /// **'Asistencia'**
+  String get attendance;
+
+  /// No description provided for @attendanceDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de asistencia'**
+  String get attendanceDate;
+
+  /// No description provided for @attendancePresent.
+  ///
+  /// In es, this message translates to:
+  /// **'Presente'**
+  String get attendancePresent;
+
+  /// No description provided for @attendanceAbsent.
+  ///
+  /// In es, this message translates to:
+  /// **'Ausente'**
+  String get attendanceAbsent;
+
+  /// No description provided for @attendanceLate.
+  ///
+  /// In es, this message translates to:
+  /// **'Tardanza'**
+  String get attendanceLate;
+
+  /// No description provided for @attendanceExcused.
+  ///
+  /// In es, this message translates to:
+  /// **'Justificado'**
+  String get attendanceExcused;
+
+  /// No description provided for @attendanceHistory.
+  ///
+  /// In es, this message translates to:
+  /// **'Todo el historial'**
+  String get attendanceHistory;
+
+  /// No description provided for @checkIn.
+  ///
+  /// In es, this message translates to:
+  /// **'Entrada'**
+  String get checkIn;
+
+  /// No description provided for @checkOut.
+  ///
+  /// In es, this message translates to:
+  /// **'Salida'**
+  String get checkOut;
+
+  /// No description provided for @clearTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar hora'**
+  String get clearTime;
+
+  /// No description provided for @attendanceInvalidTimes.
+  ///
+  /// In es, this message translates to:
+  /// **'La salida requiere entrada y no puede ser anterior.'**
+  String get attendanceInvalidTimes;
+
+  /// No description provided for @attendanceBeforeHire.
+  ///
+  /// In es, this message translates to:
+  /// **'La asistencia no puede ser anterior a la contratación.'**
+  String get attendanceBeforeHire;
+
+  /// No description provided for @errorDuplicateAttendance.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya existe asistencia para este trabajador en esa fecha. Edita el registro existente.'**
+  String get errorDuplicateAttendance;
+
+  /// No description provided for @errorAttendanceNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'El registro de asistencia ya no existe.'**
+  String get errorAttendanceNotFound;
+
+  /// No description provided for @errorWorkerHasAttendance.
+  ///
+  /// In es, this message translates to:
+  /// **'El trabajador tiene registros de asistencia. Márcalo como inactivo para conservar su historial o elimina primero esos registros.'**
+  String get errorWorkerHasAttendance;
+
+  /// No description provided for @deleteProject.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar proyecto'**
+  String get deleteProject;
+
+  /// No description provided for @deleteProjectWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta acción es irreversible. Se eliminarán trabajadores, tareas, asistencia, materiales y movimientos, incidentes y maquinaria de esta obra.'**
+  String get deleteProjectWarning;
+
+  /// No description provided for @confirmProjectName.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el nombre del proyecto para confirmar'**
+  String get confirmProjectName;
+
+  /// No description provided for @projectDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Proyecto eliminado'**
+  String get projectDeleted;
 }
 
 class _AppLocalizationsDelegate

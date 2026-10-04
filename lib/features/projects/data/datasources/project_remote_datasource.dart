@@ -8,6 +8,9 @@ class ProjectRemoteDataSource {
   ProjectRemoteDataSource(this._client);
   final ApiClient _client;
 
+  Future<void> deleteProject(int id) =>
+      _client.delete(ApiEndpoints.project(id));
+
   Future<List<Project>> getProjects() async {
     final data = await _client.get(ApiEndpoints.projects) as List<dynamic>;
     return data

@@ -8,6 +8,9 @@ class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectRemoteDataSource _remote;
 
   @override
+  Future<void> deleteProject(int id) => _remote.deleteProject(id);
+
+  @override
   Future<Project> createProject(CreateProjectRequest request) =>
       _remote.createProject(request);
   @override

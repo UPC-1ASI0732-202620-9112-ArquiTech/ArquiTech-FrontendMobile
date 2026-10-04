@@ -30,9 +30,17 @@ class WorkerPage extends ConsumerWidget {
       create: write ? () => showWorkerForm(context, ref, projectId) : null,
       actions: [
         AlertsButton(projectId: projectId),
-        TextButton(
-          onPressed: () => context.push('/projects/$projectId/tasks'),
-          child: Text(context.l10n.tasks),
+        PopupMenuButton<String>(
+          icon: const Icon(Icons.more_vert),
+          tooltip: context.l10n.personnel,
+          onSelected: (module) => context.push('/projects/$projectId/$module'),
+          itemBuilder: (_) => [
+            PopupMenuItem(value: 'tasks', child: Text(context.l10n.tasks)),
+            PopupMenuItem(
+              value: 'attendance',
+              child: Text(context.l10n.attendance),
+            ),
+          ],
         ),
       ],
       card: (item) => Card(

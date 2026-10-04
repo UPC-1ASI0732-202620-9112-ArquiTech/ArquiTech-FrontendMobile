@@ -14,6 +14,7 @@ import '../../features/projects/presentation/pages/create_project_page.dart';
 import '../../features/projects/presentation/pages/projects_page.dart';
 import '../../features/workers/presentation/pages/workers_page.dart';
 import 'app_route_guard.dart';
+import '../../features/attendance/presentation/pages/attendance_page.dart';
 import 'project_shell.dart';
 import '../../features/reports/presentation/pages/reports_page.dart';
 import '../../features/reports/presentation/pages/alerts_page.dart';
@@ -49,6 +50,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           child: child,
         ),
         routes: [
+          GoRoute(
+            path: '/projects/:projectId/attendance',
+            builder: (_, state) => AttendancePage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
+          ),
           GoRoute(
             path: '/projects/:projectId/tasks',
             builder: (_, state) => TaskPage(

@@ -16,6 +16,8 @@ import 'package:arquitech/features/machinery/presentation/controllers/machinery_
 import 'package:arquitech/features/profile/presentation/controllers/profile_controller.dart';
 import 'package:arquitech/features/profile/domain/entities/accessibility_preferences.dart';
 
+import 'package:arquitech/features/attendance/presentation/controllers/attendance_controller.dart';
+
 import '../auth/session_controller_test.dart';
 import '../support/fake_repositories.dart';
 import '../support/second_half_fixtures.dart';
@@ -40,6 +42,9 @@ Future<ProviderContainer> setup(UserRole role) async {
       sessionControllerProvider.overrideWith((ref) => session),
       projectRepositoryProvider.overrideWithValue(FakeProjectRepository()),
       materialRepositoryProvider.overrideWithValue(FakeMaterialRepository()),
+      attendanceRepositoryProvider.overrideWithValue(
+        FakeAttendanceRepository(),
+      ),
       workerRepositoryProvider.overrideWithValue(FakeWorkerRepository()),
       taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
       incidentRepositoryProvider.overrideWithValue(FakeIncidentRepository()),
@@ -80,6 +85,7 @@ void main() {
         final router = container.read(appRouterProvider);
         for (final module in [
           'materials',
+          'attendance',
           'workers',
           'tasks',
           'incidents',

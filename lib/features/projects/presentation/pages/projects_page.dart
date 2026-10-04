@@ -12,6 +12,7 @@ import '../../../auth/presentation/controllers/session_controller.dart';
 import '../controllers/project_context_controller.dart';
 import '../controllers/projects_controller.dart';
 import '../widgets/project_card.dart';
+import '../widgets/delete_project_dialog.dart';
 
 class ProjectsPage extends ConsumerWidget {
   const ProjectsPage({super.key});
@@ -75,6 +76,32 @@ class ProjectsPage extends ConsumerWidget {
                     final project = projects[index];
                     return ProjectCard(
                       project: project,
+                      onDelete: user.isSupervisor
+                          ? () async {
+                              final deleted = await showDeleteProjectDialog(
+                                context,
+                                project,
+                                () async {
+                                  await ref
+                                      .read(projectsControllerProvider.notifier)
+                                      .delete(project.id);
+                                  if (ref.read(projectContextProvider)?.id ==
+                                      project.id) {
+                                    await ref
+                                        .read(projectContextProvider.notifier)
+                                        .clear();
+                                  }
+                                },
+                              );
+                              if (deleted && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(context.l10n.projectDeleted),
+                                  ),
+                                );
+                              }
+                            }
+                          : null,
                       onTap: () async {
                         await ref
                             .read(projectContextProvider.notifier)

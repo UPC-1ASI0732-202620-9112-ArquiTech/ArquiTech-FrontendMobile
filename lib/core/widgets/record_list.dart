@@ -18,6 +18,7 @@ class RecordList<T> extends StatefulWidget {
     required this.card,
     this.create,
     this.actions = const [],
+    this.header,
   });
   final String title;
   final AsyncValue<List<T>> state;
@@ -27,6 +28,7 @@ class RecordList<T> extends StatefulWidget {
   final Widget Function(T) card;
   final VoidCallback? create;
   final List<Widget> actions;
+  final Widget? header;
   @override
   State<RecordList<T>> createState() => _RecordListState<T>();
 }
@@ -45,6 +47,7 @@ class _RecordListState<T> extends State<RecordList<T>> {
           ),
     body: Column(
       children: [
+        if (widget.header != null) widget.header!,
         Padding(
           padding: const EdgeInsets.all(16),
           child: TextField(
