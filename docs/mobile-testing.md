@@ -15,7 +15,7 @@ flutter build apk --debug
 git diff --check
 ```
 
-Resultado del 4 de octubre de 2026: dart format . sin cambios pendientes; flutter pub get exitoso; flutter analyze: No issues found; flutter test: 79 pruebas aprobadas; git diff --check sin errores de whitespace. Todos los tests de Parte 1 permanecen. La compilación adicional del APK se registra por separado cuando termina.
+Resultado del 4 de octubre de 2026: dart format . sin cambios pendientes; flutter pub get exitoso; flutter analyze: No issues found; flutter test: 79 pruebas aprobadas; git diff --check sin errores de whitespace. Todos los tests de Parte 1 permanecen. flutter build apk --debug también terminó correctamente y generó build/app/outputs/flutter-apk/app-debug.apk. La primera compilación instaló los SDK Android 34/35/36 y CMake faltantes; no hubo errores de código ni de integración de plugins.
 
 ## Cobertura añadida
 
