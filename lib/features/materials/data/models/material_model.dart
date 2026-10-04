@@ -17,7 +17,7 @@ class MaterialModel {
       unitPrice: (json['unitPrice'] as num?)?.toDouble() ?? 0,
       provider: json['provider']?.toString() ?? '',
       providerRuc: json['providerRuc']?.toString() ?? '',
-      date: DateTime.parse(json['date'].toString()),
+      date: DateTime.tryParse(json['date']?.toString() ?? ''),
     ),
   );
 }

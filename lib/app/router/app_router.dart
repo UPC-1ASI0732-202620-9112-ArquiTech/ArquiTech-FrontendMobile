@@ -4,17 +4,22 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/controllers/session_controller.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/incidents/presentation/pages/incidents_placeholder_page.dart';
-import '../../features/machinery/presentation/pages/machinery_placeholder_page.dart';
+import '../../features/incidents/presentation/pages/incidents_page.dart';
+import '../../features/machinery/presentation/pages/machinery_page.dart';
 import '../../features/materials/presentation/pages/material_history_page.dart';
 import '../../features/materials/presentation/pages/materials_page.dart';
 import '../../features/profile/presentation/pages/more_page.dart';
 import '../../features/projects/presentation/controllers/project_context_controller.dart';
 import '../../features/projects/presentation/pages/create_project_page.dart';
 import '../../features/projects/presentation/pages/projects_page.dart';
-import '../../features/workers/presentation/pages/workers_placeholder_page.dart';
+import '../../features/workers/presentation/pages/workers_page.dart';
 import 'app_route_guard.dart';
 import 'project_shell.dart';
+import '../../features/reports/presentation/pages/reports_page.dart';
+import '../../features/reports/presentation/pages/alerts_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/profile/presentation/pages/settings_page.dart';
+import '../../features/tasks/presentation/pages/tasks_page.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _RouterRefreshNotifier();
@@ -45,6 +50,30 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
         routes: [
           GoRoute(
+            path: '/projects/:projectId/tasks',
+            builder: (_, state) => TaskPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
+          ),
+          GoRoute(
+            path: '/projects/:projectId/reports',
+            builder: (_, _) => const ReportsPage(),
+          ),
+          GoRoute(
+            path: '/projects/:projectId/alerts',
+            builder: (_, state) => AlertsPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
+          ),
+          GoRoute(
+            path: '/projects/:projectId/profile',
+            builder: (_, _) => const ProfilePage(),
+          ),
+          GoRoute(
+            path: '/projects/:projectId/settings',
+            builder: (_, _) => const SettingsPage(),
+          ),
+          GoRoute(
             path: '/projects/:projectId/materials',
             builder: (_, state) => MaterialsPage(
               projectId: int.parse(state.pathParameters['projectId']!),
@@ -58,15 +87,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/projects/:projectId/workers',
-            builder: (_, _) => const WorkersPlaceholderPage(),
+            builder: (_, state) => WorkerPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
           ),
           GoRoute(
             path: '/projects/:projectId/incidents',
-            builder: (_, _) => const IncidentsPlaceholderPage(),
+            builder: (_, state) => IncidentPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
           ),
           GoRoute(
             path: '/projects/:projectId/machinery',
-            builder: (_, _) => const MachineryPlaceholderPage(),
+            builder: (_, state) => MachineryPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
           ),
           GoRoute(
             path: '/projects/:projectId/more',

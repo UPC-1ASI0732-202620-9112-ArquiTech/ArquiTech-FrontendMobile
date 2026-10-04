@@ -176,7 +176,10 @@ class _BrandHeader extends StatelessWidget {
       ),
       borderRadius: BorderRadius.circular(20),
     ),
-    child: Row(
+    child: Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 16,
+      runSpacing: 12,
       children: [
         Container(
           width: 56,
@@ -187,7 +190,7 @@ class _BrandHeader extends StatelessWidget {
           ),
           child: const Icon(Icons.architecture, color: Colors.white, size: 34),
         ),
-        const SizedBox(width: 16),
+
         Text(
           context.l10n.appName,
           style: Theme.of(context).textTheme.headlineSmall

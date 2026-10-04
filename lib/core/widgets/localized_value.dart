@@ -1,0 +1,26 @@
+import '../../app/localization/app_localizations.dart';
+
+String localizedValue(AppLocalizations l, String value) => switch (value) {
+  'ACTIVE' => l.valueActive,
+  'ON_LEAVE' => l.valueOnLeave,
+  'INACTIVE' => l.valueInactive,
+  'PENDING' => l.valuePending,
+  'IN_PROGRESS' => l.valueInProgress,
+  'COMPLETED' => l.valueCompleted,
+  'OPEN' => l.valueOpen,
+  'IN_REVIEW' => l.valueInReview,
+  'RESOLVED' => l.valueResolved,
+  'OPERATIONAL' => l.valueOperational,
+  'MAINTENANCE' => l.valueMaintenance,
+  'OUT_OF_SERVICE' => l.valueOutOfService,
+  'HIGH' => l.valueHigh,
+  'MEDIUM' => l.valueMedium,
+  'LOW' => l.valueLow,
+  'MATERIAL_SHORTAGE' => l.valueMaterialShortage,
+  'DELIVERY_DELAY' => l.valueDeliveryDelay,
+  'EQUIPMENT_FAILURE' => l.valueEquipmentFailure,
+  'WORK_ACCIDENT' => l.valueWorkAccident,
+  'UNSAFE_CONDITION' => l.valueUnsafeCondition,
+  'OTHER' => l.valueOther,
+  _ => value,
+};

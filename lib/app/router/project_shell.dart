@@ -9,10 +9,16 @@ class ProjectShell extends StatelessWidget {
   final Widget child;
 
   int _index(String path) {
-    if (path.contains('/workers')) return 1;
+    if ((path.contains('/workers') || path.contains('/tasks'))) return 1;
     if (path.contains('/incidents')) return 2;
     if (path.contains('/machinery')) return 3;
-    if (path.contains('/more')) return 4;
+    if (path.contains('/more') ||
+        path.contains('/reports') ||
+        path.contains('/profile') ||
+        path.contains('/settings') ||
+        path.contains('/alerts')) {
+      return 4;
+    }
     return 0;
   }
 
@@ -22,6 +28,9 @@ class ProjectShell extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
+        animationDuration: MediaQuery.disableAnimationsOf(context)
+            ? Duration.zero
+            : null,
         selectedIndex: _index(path),
         onDestinationSelected: (index) {
           final suffix = switch (index) {

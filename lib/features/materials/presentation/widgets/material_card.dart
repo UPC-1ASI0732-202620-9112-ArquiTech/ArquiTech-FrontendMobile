@@ -111,8 +111,10 @@ class MaterialCard extends StatelessWidget {
                 Expanded(
                   child: _Metric(
                     label: context.l10n.date,
-                    value: MaterialLocalizations.of(context)
-                        .formatMediumDate(material.date),
+                    value: material.date == null
+                        ? '—'
+                        : MaterialLocalizations.of(context)
+                              .formatMediumDate(material.date!),
                     alignEnd: true,
                   ),
                 ),
