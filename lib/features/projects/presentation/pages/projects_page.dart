@@ -8,6 +8,7 @@ import '../../../../core/utils/role_permissions.dart';
 import '../../../../core/widgets/app_empty_view.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../../../core/widgets/app_loading.dart';
+import '../../../../core/widgets/app_logo.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../controllers/project_context_controller.dart';
 import '../controllers/projects_controller.dart';
@@ -24,7 +25,13 @@ class ProjectsPage extends ConsumerWidget {
     if (user == null) return const Scaffold(body: SizedBox.shrink());
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.projects),
+        title: Row(
+          children: [
+            const AppLogo(size: 36),
+            const SizedBox(width: 12),
+            Expanded(child: Text(context.l10n.projects)),
+          ],
+        ),
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.language),

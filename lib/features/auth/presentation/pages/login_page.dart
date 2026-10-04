@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/localization/localization_context.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/errors/error_mapper.dart';
+import '../../../../core/widgets/app_logo.dart';
 import '../../../../core/utils/validators.dart' as app_validators;
 import '../controllers/auth_controller.dart';
 import '../controllers/session_controller.dart';
@@ -181,15 +182,7 @@ class _BrandHeader extends StatelessWidget {
       spacing: 16,
       runSpacing: 12,
       children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: AppColors.fulvous,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: const Icon(Icons.architecture, color: Colors.white, size: 34),
-        ),
+        const AppLogo(),
 
         Text(
           context.l10n.appName,

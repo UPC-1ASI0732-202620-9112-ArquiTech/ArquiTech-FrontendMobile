@@ -15,6 +15,13 @@ La base URL de producción vive únicamente en `lib/core/config/app_config.dart`
 
 `https://arquitech-backend-production.up.railway.app/api/v1`
 
+Para ejecutar en Chrome contra producción, usa un puerto fijo permitido por CORS:
+
+```bash
+flutter run -d chrome --web-hostname localhost --web-port 4200
+```
+
+Abre la aplicación en `http://localhost:4200`. Flutter puede elegir un puerto aleatorio al ejecutar solo `flutter run -d chrome`; Railway rechaza esos orígenes y Chrome muestra un error de conexión. Si Angular ocupa el puerto 4200, detén ese servidor o configura otro origen exacto en `CORS_ALLOWED_ORIGINS` del Backend. Reinicia Flutter después de cambiar sus parámetros.
 Para el Backend local desde Android Emulator:
 
 ```bash
