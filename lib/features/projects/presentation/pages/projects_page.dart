@@ -19,7 +19,8 @@ class ProjectsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(projectsControllerProvider);
-    final user = ref.watch(sessionControllerProvider).user!;
+    final user = ref.watch(sessionControllerProvider).user;
+    if (user == null) return const Scaffold(body: SizedBox.shrink());
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.projects),
@@ -66,6 +67,7 @@ class ProjectsPage extends ConsumerWidget {
                   ],
                 )
               : ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(16),
                   itemCount: projects.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 16),

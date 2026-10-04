@@ -23,7 +23,7 @@ class Material {
   final double unitPrice;
   final String provider;
   final String providerRuc;
-  final DateTime date;
+  final DateTime? date;
 
   bool get isLowStock => stock < minimumStock;
   bool canUse(double amount) => amount > 0 && amount <= stock;

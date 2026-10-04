@@ -66,9 +66,25 @@ class _MaterialHistoryPageState extends ConsumerState<MaterialHistoryPage> {
                           .where((movement) => movement.type == _filter)
                           .toList();
                 if (filtered.isEmpty) {
-                  return AppEmptyView(
-                    message: context.l10n.noMovements,
-                    icon: Icons.history,
+                  return RefreshIndicator(
+                    onRefresh: ref
+                        .read(
+                          movementsControllerProvider(widget.projectId)
+                              .notifier,
+                        )
+                        .load,
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: AppEmptyView(
+                            message: context.l10n.noMovements,
+                            icon: Icons.history,
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }
                 return RefreshIndicator(
@@ -78,6 +94,7 @@ class _MaterialHistoryPageState extends ConsumerState<MaterialHistoryPage> {
                       )
                       .load,
                   child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                     itemCount: filtered.length,
                     separatorBuilder: (_, _) => const SizedBox(height: 10),

@@ -769,6 +769,414 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No se pudo conectar con el servidor. Revisa tu conexión.'**
   String get networkError;
+
+  /// No description provided for @workers.
+  ///
+  /// In es, this message translates to:
+  /// **'Trabajadores'**
+  String get workers;
+
+  /// No description provided for @tasks.
+  ///
+  /// In es, this message translates to:
+  /// **'Tareas'**
+  String get tasks;
+
+  /// No description provided for @search.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar'**
+  String get search;
+
+  /// No description provided for @noRecords.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay registros para estos filtros.'**
+  String get noRecords;
+
+  /// No description provided for @saved.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambios guardados.'**
+  String get saved;
+
+  /// No description provided for @deleteRecord.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar este registro?'**
+  String get deleteRecord;
+
+  /// No description provided for @fullName.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre completo'**
+  String get fullName;
+
+  /// No description provided for @workerRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargo'**
+  String get workerRole;
+
+  /// No description provided for @specialty.
+  ///
+  /// In es, this message translates to:
+  /// **'Especialidad'**
+  String get specialty;
+
+  /// No description provided for @hireDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de contratación'**
+  String get hireDate;
+
+  /// No description provided for @description.
+  ///
+  /// In es, this message translates to:
+  /// **'Descripción'**
+  String get description;
+
+  /// No description provided for @title.
+  ///
+  /// In es, this message translates to:
+  /// **'Título'**
+  String get title;
+
+  /// No description provided for @dueDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha límite'**
+  String get dueDate;
+
+  /// No description provided for @worker.
+  ///
+  /// In es, this message translates to:
+  /// **'Trabajador'**
+  String get worker;
+
+  /// No description provided for @overdue.
+  ///
+  /// In es, this message translates to:
+  /// **'Vencida'**
+  String get overdue;
+
+  /// No description provided for @complete.
+  ///
+  /// In es, this message translates to:
+  /// **'Completar'**
+  String get complete;
+
+  /// No description provided for @resolve.
+  ///
+  /// In es, this message translates to:
+  /// **'Resolver'**
+  String get resolve;
+
+  /// No description provided for @severity.
+  ///
+  /// In es, this message translates to:
+  /// **'Gravedad'**
+  String get severity;
+
+  /// No description provided for @incidentType.
+  ///
+  /// In es, this message translates to:
+  /// **'Tipo de incidente'**
+  String get incidentType;
+
+  /// No description provided for @reportedAt.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de reporte'**
+  String get reportedAt;
+
+  /// No description provided for @serialNumber.
+  ///
+  /// In es, this message translates to:
+  /// **'Número de serie'**
+  String get serialNumber;
+
+  /// No description provided for @registeredAt.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de registro'**
+  String get registeredAt;
+
+  /// No description provided for @invalidSerial.
+  ///
+  /// In es, this message translates to:
+  /// **'Usa 3 a 20 letras, números o guiones.'**
+  String get invalidSerial;
+
+  /// No description provided for @invalidDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresa una fecha válida YYYY-MM-DD.'**
+  String get invalidDate;
+
+  /// No description provided for @noEligibleWorkers.
+  ///
+  /// In es, this message translates to:
+  /// **'Registra un trabajador activo o de licencia para asignar tareas.'**
+  String get noEligibleWorkers;
+
+  /// No description provided for @assignTask.
+  ///
+  /// In es, this message translates to:
+  /// **'Asignar tarea'**
+  String get assignTask;
+
+  /// No description provided for @settings.
+  ///
+  /// In es, this message translates to:
+  /// **'Configuración'**
+  String get settings;
+
+  /// No description provided for @phone.
+  ///
+  /// In es, this message translates to:
+  /// **'Teléfono'**
+  String get phone;
+
+  /// No description provided for @company.
+  ///
+  /// In es, this message translates to:
+  /// **'Empresa'**
+  String get company;
+
+  /// No description provided for @localProfile.
+  ///
+  /// In es, this message translates to:
+  /// **'Estos datos se guardan solo en este dispositivo.'**
+  String get localProfile;
+
+  /// No description provided for @textSize.
+  ///
+  /// In es, this message translates to:
+  /// **'Tamaño de texto'**
+  String get textSize;
+
+  /// No description provided for @normalText.
+  ///
+  /// In es, this message translates to:
+  /// **'Normal'**
+  String get normalText;
+
+  /// No description provided for @largeText.
+  ///
+  /// In es, this message translates to:
+  /// **'Grande'**
+  String get largeText;
+
+  /// No description provided for @extraLargeText.
+  ///
+  /// In es, this message translates to:
+  /// **'Muy grande'**
+  String get extraLargeText;
+
+  /// No description provided for @highContrast.
+  ///
+  /// In es, this message translates to:
+  /// **'Alto contraste'**
+  String get highContrast;
+
+  /// No description provided for @reduceMotion.
+  ///
+  /// In es, this message translates to:
+  /// **'Reducir movimiento'**
+  String get reduceMotion;
+
+  /// No description provided for @alerts.
+  ///
+  /// In es, this message translates to:
+  /// **'Alertas'**
+  String get alerts;
+
+  /// No description provided for @criticalIncident.
+  ///
+  /// In es, this message translates to:
+  /// **'Incidente crítico'**
+  String get criticalIncident;
+
+  /// No description provided for @currentWeek.
+  ///
+  /// In es, this message translates to:
+  /// **'Semana actual'**
+  String get currentWeek;
+
+  /// No description provided for @previousWeek.
+  ///
+  /// In es, this message translates to:
+  /// **'Semana anterior'**
+  String get previousWeek;
+
+  /// No description provided for @nextWeek.
+  ///
+  /// In es, this message translates to:
+  /// **'Semana siguiente'**
+  String get nextWeek;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Seleccionar fecha'**
+  String get selectDate;
+
+  /// No description provided for @completedTasks.
+  ///
+  /// In es, this message translates to:
+  /// **'Tareas completadas'**
+  String get completedTasks;
+
+  /// No description provided for @openTasks.
+  ///
+  /// In es, this message translates to:
+  /// **'Tareas abiertas'**
+  String get openTasks;
+
+  /// No description provided for @openIncidents.
+  ///
+  /// In es, this message translates to:
+  /// **'Incidentes abiertos'**
+  String get openIncidents;
+
+  /// No description provided for @generatePdf.
+  ///
+  /// In es, this message translates to:
+  /// **'Generar PDF'**
+  String get generatePdf;
+
+  /// No description provided for @deleteWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta acción no se puede deshacer.'**
+  String get deleteWarning;
+
+  /// No description provided for @valueActive.
+  ///
+  /// In es, this message translates to:
+  /// **'Activo'**
+  String get valueActive;
+
+  /// No description provided for @valueOnLeave.
+  ///
+  /// In es, this message translates to:
+  /// **'De licencia'**
+  String get valueOnLeave;
+
+  /// No description provided for @valueInactive.
+  ///
+  /// In es, this message translates to:
+  /// **'Inactivo'**
+  String get valueInactive;
+
+  /// No description provided for @valuePending.
+  ///
+  /// In es, this message translates to:
+  /// **'Pendiente'**
+  String get valuePending;
+
+  /// No description provided for @valueInProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'En progreso'**
+  String get valueInProgress;
+
+  /// No description provided for @valueCompleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Completada'**
+  String get valueCompleted;
+
+  /// No description provided for @valueOpen.
+  ///
+  /// In es, this message translates to:
+  /// **'Abierto'**
+  String get valueOpen;
+
+  /// No description provided for @valueInReview.
+  ///
+  /// In es, this message translates to:
+  /// **'En revisión'**
+  String get valueInReview;
+
+  /// No description provided for @valueResolved.
+  ///
+  /// In es, this message translates to:
+  /// **'Resuelto'**
+  String get valueResolved;
+
+  /// No description provided for @valueOperational.
+  ///
+  /// In es, this message translates to:
+  /// **'Operativa'**
+  String get valueOperational;
+
+  /// No description provided for @valueMaintenance.
+  ///
+  /// In es, this message translates to:
+  /// **'En mantenimiento'**
+  String get valueMaintenance;
+
+  /// No description provided for @valueOutOfService.
+  ///
+  /// In es, this message translates to:
+  /// **'Fuera de servicio'**
+  String get valueOutOfService;
+
+  /// No description provided for @valueHigh.
+  ///
+  /// In es, this message translates to:
+  /// **'Alta'**
+  String get valueHigh;
+
+  /// No description provided for @valueMedium.
+  ///
+  /// In es, this message translates to:
+  /// **'Media'**
+  String get valueMedium;
+
+  /// No description provided for @valueLow.
+  ///
+  /// In es, this message translates to:
+  /// **'Baja'**
+  String get valueLow;
+
+  /// No description provided for @valueMaterialShortage.
+  ///
+  /// In es, this message translates to:
+  /// **'Falta de materiales'**
+  String get valueMaterialShortage;
+
+  /// No description provided for @valueDeliveryDelay.
+  ///
+  /// In es, this message translates to:
+  /// **'Retraso en entrega'**
+  String get valueDeliveryDelay;
+
+  /// No description provided for @valueEquipmentFailure.
+  ///
+  /// In es, this message translates to:
+  /// **'Falla de equipo'**
+  String get valueEquipmentFailure;
+
+  /// No description provided for @valueWorkAccident.
+  ///
+  /// In es, this message translates to:
+  /// **'Accidente laboral'**
+  String get valueWorkAccident;
+
+  /// No description provided for @valueUnsafeCondition.
+  ///
+  /// In es, this message translates to:
+  /// **'Condición insegura'**
+  String get valueUnsafeCondition;
+
+  /// No description provided for @valueOther.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro'**
+  String get valueOther;
 }
 
 class _AppLocalizationsDelegate

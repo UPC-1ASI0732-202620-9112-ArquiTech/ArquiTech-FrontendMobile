@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/providers/app_providers.dart';
+import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../data/models/project_model.dart';
 import '../../domain/entities/project.dart';
 
@@ -56,9 +57,16 @@ class ProjectContextController extends StateNotifier<Project?> {
 final projectContextProvider =
     StateNotifierProvider<ProjectContextController, Project?>((ref) {
       final storage = ref.watch(preferencesStorageProvider);
-      return ProjectContextController(
+      final controller = ProjectContextController(
         () => storage.getString(ProjectContextController._key),
         (value) => storage.setString(ProjectContextController._key, value),
         () => storage.remove(ProjectContextController._key),
       );
+      ref.listen(sessionControllerProvider, (_, session) {
+        if (!session.isAuthenticated &&
+            session.status != SessionStatus.restoring) {
+          controller.clear();
+        }
+      });
+      return controller;
     });

@@ -12,6 +12,7 @@ import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../domain/entities/material.dart' as domain;
 import '../../domain/entities/material_movement.dart';
 import '../controllers/materials_controller.dart';
+import '../../../reports/presentation/widgets/alerts_button.dart';
 import '../widgets/material_card.dart';
 import '../widgets/material_form_sheet.dart';
 import '../widgets/material_movement_sheet.dart';
@@ -23,12 +24,13 @@ class MaterialsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(materialsControllerProvider(projectId));
-    final role = ref.watch(sessionControllerProvider).user!.role;
-    final canWrite = RolePermissions.canWriteMaterials(role);
+    final role = ref.watch(sessionControllerProvider).user?.role;
+    final canWrite = role != null && RolePermissions.canWriteMaterials(role);
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.materials),
         actions: [
+          AlertsButton(projectId: projectId),
           IconButton(
             tooltip: context.l10n.history,
             onPressed: () =>
@@ -63,6 +65,7 @@ class MaterialsPage extends ConsumerWidget {
                   ],
                 )
               : ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(16),
                   itemCount: materials.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 12),

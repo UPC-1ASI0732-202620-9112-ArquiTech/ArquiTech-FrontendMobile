@@ -6,6 +6,7 @@ import 'localization/app_localizations.dart';
 import 'localization/locale_controller.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
+import '../features/profile/presentation/controllers/profile_controller.dart';
 
 class ArquiTechApp extends ConsumerWidget {
   const ArquiTechApp({super.key});
@@ -13,11 +14,28 @@ class ArquiTechApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final accessibility = ref.watch(accessibilityProvider);
     final locale = ref.watch(localeControllerProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'ArquiTech',
-      theme: AppTheme.light,
+      theme: AppTheme.withAccessibility(
+        highContrast: accessibility.highContrast,
+        reduceMotion: accessibility.reduceMotion,
+      ),
+      builder: (context, child) {
+        final media = MediaQuery.of(context);
+        return MediaQuery(
+          data: media.copyWith(
+            textScaler: TextScaler.linear(
+              media.textScaler.scale(1) * accessibility.textScale,
+            ),
+            disableAnimations:
+                accessibility.reduceMotion || media.disableAnimations,
+          ),
+          child: child!,
+        );
+      },
       locale: locale,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [

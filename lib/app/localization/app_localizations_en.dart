@@ -354,4 +354,209 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get networkError =>
       'Could not connect to the server. Check your connection.';
+
+  @override
+  String get workers => 'Workers';
+
+  @override
+  String get tasks => 'Tasks';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get noRecords => 'No records match these filters.';
+
+  @override
+  String get saved => 'Changes saved.';
+
+  @override
+  String get deleteRecord => 'Delete this record?';
+
+  @override
+  String get fullName => 'Full name';
+
+  @override
+  String get workerRole => 'Role';
+
+  @override
+  String get specialty => 'Specialty';
+
+  @override
+  String get hireDate => 'Hire date';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get dueDate => 'Due date';
+
+  @override
+  String get worker => 'Worker';
+
+  @override
+  String get overdue => 'Overdue';
+
+  @override
+  String get complete => 'Complete';
+
+  @override
+  String get resolve => 'Resolve';
+
+  @override
+  String get severity => 'Severity';
+
+  @override
+  String get incidentType => 'Incident type';
+
+  @override
+  String get reportedAt => 'Reported at';
+
+  @override
+  String get serialNumber => 'Serial number';
+
+  @override
+  String get registeredAt => 'Registered at';
+
+  @override
+  String get invalidSerial => 'Use 3 to 20 letters, digits or hyphens.';
+
+  @override
+  String get invalidDate => 'Enter a valid YYYY-MM-DD date.';
+
+  @override
+  String get noEligibleWorkers =>
+      'Register an active or on-leave worker to assign tasks.';
+
+  @override
+  String get assignTask => 'Assign task';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get company => 'Company';
+
+  @override
+  String get localProfile => 'These details are saved only on this device.';
+
+  @override
+  String get textSize => 'Text size';
+
+  @override
+  String get normalText => 'Normal';
+
+  @override
+  String get largeText => 'Large';
+
+  @override
+  String get extraLargeText => 'Extra large';
+
+  @override
+  String get highContrast => 'High contrast';
+
+  @override
+  String get reduceMotion => 'Reduce motion';
+
+  @override
+  String get alerts => 'Alerts';
+
+  @override
+  String get criticalIncident => 'Critical incident';
+
+  @override
+  String get currentWeek => 'Current week';
+
+  @override
+  String get previousWeek => 'Previous week';
+
+  @override
+  String get nextWeek => 'Next week';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
+  String get completedTasks => 'Completed tasks';
+
+  @override
+  String get openTasks => 'Open tasks';
+
+  @override
+  String get openIncidents => 'Open incidents';
+
+  @override
+  String get generatePdf => 'Generate PDF';
+
+  @override
+  String get deleteWarning => 'This action cannot be undone.';
+
+  @override
+  String get valueActive => 'Active';
+
+  @override
+  String get valueOnLeave => 'On leave';
+
+  @override
+  String get valueInactive => 'Inactive';
+
+  @override
+  String get valuePending => 'Pending';
+
+  @override
+  String get valueInProgress => 'In progress';
+
+  @override
+  String get valueCompleted => 'Completed';
+
+  @override
+  String get valueOpen => 'Open';
+
+  @override
+  String get valueInReview => 'In review';
+
+  @override
+  String get valueResolved => 'Resolved';
+
+  @override
+  String get valueOperational => 'Operational';
+
+  @override
+  String get valueMaintenance => 'Maintenance';
+
+  @override
+  String get valueOutOfService => 'Out of service';
+
+  @override
+  String get valueHigh => 'High';
+
+  @override
+  String get valueMedium => 'Medium';
+
+  @override
+  String get valueLow => 'Low';
+
+  @override
+  String get valueMaterialShortage => 'Material shortage';
+
+  @override
+  String get valueDeliveryDelay => 'Delivery delay';
+
+  @override
+  String get valueEquipmentFailure => 'Equipment failure';
+
+  @override
+  String get valueWorkAccident => 'Work accident';
+
+  @override
+  String get valueUnsafeCondition => 'Unsafe condition';
+
+  @override
+  String get valueOther => 'Other';
 }

@@ -17,7 +17,7 @@ abstract final class AppRouteGuard {
     if (location == '/projects/new' && session.user!.isContractor) {
       return '/projects';
     }
-    final match = RegExp(r'^/projects/(\d+)/').firstMatch(location);
+    final match = RegExp(r'^/projects/([^/]+)/').firstMatch(location);
     if (match != null) {
       final routeProjectId = int.tryParse(match.group(1)!);
       if (selectedProject == null || selectedProject.id != routeProjectId) {

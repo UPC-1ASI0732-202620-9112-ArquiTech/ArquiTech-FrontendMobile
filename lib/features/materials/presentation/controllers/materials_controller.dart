@@ -1,3 +1,5 @@
+import '../../../auth/presentation/controllers/session_controller.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/network/network_providers.dart';
@@ -8,6 +10,7 @@ import '../../domain/entities/material_movement.dart';
 import '../../domain/repositories/material_repository.dart';
 
 final materialRepositoryProvider = Provider<MaterialRepository>((ref) {
+  ref.watch(sessionControllerProvider.select((s) => s.user?.id));
   return MaterialRepositoryImpl(
     MaterialRemoteDataSource(ref.watch(apiClientProvider)),
   );
@@ -24,11 +27,21 @@ class MaterialsController extends StateNotifier<AsyncValue<List<Material>>> {
 
   Future<void> load() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _repository.getMaterials(_projectId));
+    final result = await AsyncValue.guard(
+      () => _repository.getMaterials(_projectId),
+    );
+    if (mounted) {
+      state = result;
+    }
   }
 
   Future<void> refresh() async {
-    state = await AsyncValue.guard(() => _repository.getMaterials(_projectId));
+    final result = await AsyncValue.guard(
+      () => _repository.getMaterials(_projectId),
+    );
+    if (mounted) {
+      state = result;
+    }
   }
 
   Future<Material> create(CreateMaterialRequest request) async {
@@ -84,7 +97,12 @@ class MovementsController
 
   Future<void> load() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _repository.getHistory(_projectId));
+    final result = await AsyncValue.guard(
+      () => _repository.getHistory(_projectId),
+    );
+    if (mounted) {
+      state = result;
+    }
   }
 }
 

@@ -4,6 +4,29 @@ import 'app_colors.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
+  static ThemeData withAccessibility({
+    required bool highContrast,
+    required bool reduceMotion,
+  }) {
+    final theme = light;
+    return theme.copyWith(
+      colorScheme: highContrast
+          ? ColorScheme.highContrastLight(
+              primary: AppColors.sinopia,
+              secondary: AppColors.jet,
+            )
+          : theme.colorScheme,
+      pageTransitionsTheme: reduceMotion
+          ? PageTransitionsTheme(
+              builders: {
+                for (final platform in TargetPlatform.values)
+                  platform: _NoMotionTransitions(),
+              },
+            )
+          : theme.pageTransitionsTheme,
+    );
+  }
+
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.sinopia,
@@ -74,4 +97,16 @@ abstract final class AppTheme {
       ),
     );
   }
+}
+
+class _NoMotionTransitions extends PageTransitionsBuilder {
+  const _NoMotionTransitions();
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) => child;
 }

@@ -1,3 +1,5 @@
+import '../../../auth/presentation/controllers/session_controller.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/network/network_providers.dart';
@@ -8,6 +10,7 @@ import '../../domain/entities/project.dart';
 import '../../domain/repositories/project_repository.dart';
 
 final projectRepositoryProvider = Provider<ProjectRepository>((ref) {
+  ref.watch(sessionControllerProvider.select((s) => s.user?.id));
   return ProjectRepositoryImpl(
     ProjectRemoteDataSource(ref.watch(apiClientProvider)),
   );
@@ -22,17 +25,24 @@ class ProjectsController extends StateNotifier<AsyncValue<List<Project>>> {
 
   Future<void> load() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(_repository.getProjects);
+    final result = await AsyncValue.guard(_repository.getProjects);
+    if (mounted) {
+      state = result;
+    }
   }
 
   Future<void> refresh() async {
     final result = await AsyncValue.guard(_repository.getProjects);
-    state = result;
+    if (mounted) {
+      state = result;
+    }
   }
 
   Future<Project> create(CreateProjectRequest request) async {
     final project = await _repository.createProject(request);
-    state = AsyncValue.data([...state.valueOrNull ?? [], project]);
+    if (mounted) {
+      state = AsyncValue.data([...state.valueOrNull ?? [], project]);
+    }
     return project;
   }
 }

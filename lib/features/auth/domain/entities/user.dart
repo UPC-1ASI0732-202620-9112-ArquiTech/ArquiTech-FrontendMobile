@@ -7,9 +7,11 @@ enum UserRole {
 
   static UserRole fromApi(String value) {
     final normalized = value.toUpperCase().replaceFirst('ROLE_', '');
-    return normalized == 'CONTRACTOR'
-        ? UserRole.contractor
-        : UserRole.supervisor;
+    return switch (normalized) {
+      'CONTRACTOR' => UserRole.contractor,
+      'SUPERVISOR' => UserRole.supervisor,
+      _ => throw FormatException('Unsupported user role'),
+    };
   }
 }
 

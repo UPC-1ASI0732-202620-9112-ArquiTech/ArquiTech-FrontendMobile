@@ -357,4 +357,209 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get networkError =>
       'No se pudo conectar con el servidor. Revisa tu conexión.';
+
+  @override
+  String get workers => 'Trabajadores';
+
+  @override
+  String get tasks => 'Tareas';
+
+  @override
+  String get search => 'Buscar';
+
+  @override
+  String get noRecords => 'No hay registros para estos filtros.';
+
+  @override
+  String get saved => 'Cambios guardados.';
+
+  @override
+  String get deleteRecord => '¿Eliminar este registro?';
+
+  @override
+  String get fullName => 'Nombre completo';
+
+  @override
+  String get workerRole => 'Cargo';
+
+  @override
+  String get specialty => 'Especialidad';
+
+  @override
+  String get hireDate => 'Fecha de contratación';
+
+  @override
+  String get description => 'Descripción';
+
+  @override
+  String get title => 'Título';
+
+  @override
+  String get dueDate => 'Fecha límite';
+
+  @override
+  String get worker => 'Trabajador';
+
+  @override
+  String get overdue => 'Vencida';
+
+  @override
+  String get complete => 'Completar';
+
+  @override
+  String get resolve => 'Resolver';
+
+  @override
+  String get severity => 'Gravedad';
+
+  @override
+  String get incidentType => 'Tipo de incidente';
+
+  @override
+  String get reportedAt => 'Fecha de reporte';
+
+  @override
+  String get serialNumber => 'Número de serie';
+
+  @override
+  String get registeredAt => 'Fecha de registro';
+
+  @override
+  String get invalidSerial => 'Usa 3 a 20 letras, números o guiones.';
+
+  @override
+  String get invalidDate => 'Ingresa una fecha válida YYYY-MM-DD.';
+
+  @override
+  String get noEligibleWorkers =>
+      'Registra un trabajador activo o de licencia para asignar tareas.';
+
+  @override
+  String get assignTask => 'Asignar tarea';
+
+  @override
+  String get settings => 'Configuración';
+
+  @override
+  String get phone => 'Teléfono';
+
+  @override
+  String get company => 'Empresa';
+
+  @override
+  String get localProfile => 'Estos datos se guardan solo en este dispositivo.';
+
+  @override
+  String get textSize => 'Tamaño de texto';
+
+  @override
+  String get normalText => 'Normal';
+
+  @override
+  String get largeText => 'Grande';
+
+  @override
+  String get extraLargeText => 'Muy grande';
+
+  @override
+  String get highContrast => 'Alto contraste';
+
+  @override
+  String get reduceMotion => 'Reducir movimiento';
+
+  @override
+  String get alerts => 'Alertas';
+
+  @override
+  String get criticalIncident => 'Incidente crítico';
+
+  @override
+  String get currentWeek => 'Semana actual';
+
+  @override
+  String get previousWeek => 'Semana anterior';
+
+  @override
+  String get nextWeek => 'Semana siguiente';
+
+  @override
+  String get selectDate => 'Seleccionar fecha';
+
+  @override
+  String get completedTasks => 'Tareas completadas';
+
+  @override
+  String get openTasks => 'Tareas abiertas';
+
+  @override
+  String get openIncidents => 'Incidentes abiertos';
+
+  @override
+  String get generatePdf => 'Generar PDF';
+
+  @override
+  String get deleteWarning => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get valueActive => 'Activo';
+
+  @override
+  String get valueOnLeave => 'De licencia';
+
+  @override
+  String get valueInactive => 'Inactivo';
+
+  @override
+  String get valuePending => 'Pendiente';
+
+  @override
+  String get valueInProgress => 'En progreso';
+
+  @override
+  String get valueCompleted => 'Completada';
+
+  @override
+  String get valueOpen => 'Abierto';
+
+  @override
+  String get valueInReview => 'En revisión';
+
+  @override
+  String get valueResolved => 'Resuelto';
+
+  @override
+  String get valueOperational => 'Operativa';
+
+  @override
+  String get valueMaintenance => 'En mantenimiento';
+
+  @override
+  String get valueOutOfService => 'Fuera de servicio';
+
+  @override
+  String get valueHigh => 'Alta';
+
+  @override
+  String get valueMedium => 'Media';
+
+  @override
+  String get valueLow => 'Baja';
+
+  @override
+  String get valueMaterialShortage => 'Falta de materiales';
+
+  @override
+  String get valueDeliveryDelay => 'Retraso en entrega';
+
+  @override
+  String get valueEquipmentFailure => 'Falla de equipo';
+
+  @override
+  String get valueWorkAccident => 'Accidente laboral';
+
+  @override
+  String get valueUnsafeCondition => 'Condición insegura';
+
+  @override
+  String get valueOther => 'Otro';
 }
