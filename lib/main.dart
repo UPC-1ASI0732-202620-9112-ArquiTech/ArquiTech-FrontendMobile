@@ -8,7 +8,9 @@ import 'core/storage/preferences_storage_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   final preferences = await SharedPreferences.getInstance();
+
   runApp(
     ProviderScope(
       overrides: [
