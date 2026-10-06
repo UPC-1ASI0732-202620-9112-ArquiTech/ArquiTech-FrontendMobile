@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('http://localhost:4200/#/login');
+  await page.getByRole('textbox', { name: 'Correo electrónico' }).click();
+  await page.getByRole('textbox', { name: 'Correo electrónico' }).fill('supervisor.mobile@arquitech.com');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('Arquitech123!');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('Enter');
+  await page.getByText('E2E Proyecto Playwright', { exact: true }).waitFor();
+  await page.getByText('E2E Proyecto Playwright', { exact: true }).click();
+  await page.getByText('Personal', { exact: true }).click();
+  await page.getByRole('textbox', { name: 'Buscar', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Buscar', exact: true }).fill('Trabajador E2E Playwright');
+  await page.getByRole('button', { name: 'Asignar tarea', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Título', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Título', exact: true }).fill('Tarea E2E Playwright');
+  await page.getByRole('textbox', { name: 'Descripción', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Descripción', exact: true }).fill('Revisar acabados de la obra de prueba');
+  await page.getByRole('textbox', { name: 'Fecha límite', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Fecha límite', exact: true }).fill('2030-12-31');
+  await page.getByRole('button', { name: 'Guardar', exact: true }).click();
+  await page.getByRole('button', { name: 'Personal', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Tareas', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Buscar', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Buscar', exact: true }).fill('Tarea E2E Playwright');
+  await page.getByRole('region', { name: 'Tareas', exact: true }).getByRole('button', { name: 'Completar', exact: true }).click();
+  await expect(page).toHaveURL(/#\/projects\/\d+\/tasks$/);
+  await expect(page.getByRole('region', { name: 'Tareas', exact: true }).getByText('Tarea E2E Playwright', { exact: true })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Tareas', exact: true }).getByText('Completada', { exact: true })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Tareas', exact: true }).getByRole('button', { name: 'Completar', exact: true })).toHaveCount(0);
+});
