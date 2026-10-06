@@ -24,6 +24,7 @@ class _CreateProjectPageState extends ConsumerState<CreateProjectPage> {
   DateTime? _end;
   int? _contractorId;
   bool _submitting = false;
+  bool _endDateMissing = false;
 
   @override
   void dispose() {
@@ -62,6 +63,7 @@ class _CreateProjectPageState extends ConsumerState<CreateProjectPage> {
                 children: [
                   Expanded(child: Text(context.l10n.genericError)),
                   IconButton(
+                    tooltip: context.l10n.retry,
                     onPressed: () => ref.invalidate(contractorsProvider),
                     icon: const Icon(Icons.refresh),
                   ),
@@ -103,6 +105,14 @@ class _CreateProjectPageState extends ConsumerState<CreateProjectPage> {
                 ),
               ],
             ),
+            if (_endDateMissing)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  '${context.l10n.endDate}: ${context.l10n.requiredField}',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
             if (_end != null && _end!.isBefore(_start))
               Padding(
                 padding: const EdgeInsets.only(top: 8),
@@ -175,12 +185,14 @@ class _CreateProjectPageState extends ConsumerState<CreateProjectPage> {
           _start = picked;
         } else {
           _end = picked;
+          _endDateMissing = false;
         }
       });
     }
   }
 
   Future<void> _submit() async {
+    setState(() => _endDateMissing = _end == null);
     if (!(_formKey.currentState?.validate() ?? false) ||
         _end == null ||
         _end!.isBefore(_start)) {
@@ -230,15 +242,24 @@ class _DateField extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => InkWell(
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    label: label,
+    value: value == null
+        ? '—'
+        : MaterialLocalizations.of(context).formatMediumDate(value!),
     onTap: onTap,
-    borderRadius: BorderRadius.circular(12),
-    child: InputDecorator(
-      decoration: InputDecoration(labelText: label),
-      child: Text(
-        value == null
-            ? '—'
-            : MaterialLocalizations.of(context).formatMediumDate(value!),
+    excludeSemantics: true,
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: InputDecorator(
+        decoration: InputDecoration(labelText: label),
+        child: Text(
+          value == null
+              ? '—'
+              : MaterialLocalizations.of(context).formatMediumDate(value!),
+        ),
       ),
     ),
   );

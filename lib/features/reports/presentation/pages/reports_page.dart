@@ -1,3 +1,5 @@
+import 'dart:ui' show SemanticsRole;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:printing/printing.dart';
@@ -22,16 +24,22 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
   DateTime date = WeekRange(DateTime.now()).start;
   bool printing = false;
   String day(DateTime d) => d.toLocal().toIso8601String().split('T').first;
-  Widget section(String title, List<String> rows) => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
-          for (final row in rows.isEmpty ? [context.l10n.noRecords] : rows)
-            Padding(padding: const EdgeInsets.only(top: 8), child: Text(row)),
-        ],
+  Widget section(String title, List<String> rows) => Semantics(
+    container: true,
+    explicitChildNodes: true,
+    role: SemanticsRole.region,
+    label: title,
+    child: Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            for (final row in rows.isEmpty ? [context.l10n.noRecords] : rows)
+              Padding(padding: const EdgeInsets.only(top: 8), child: Text(row)),
+          ],
+        ),
       ),
     ),
   );

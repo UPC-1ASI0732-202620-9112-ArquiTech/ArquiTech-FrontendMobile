@@ -1,3 +1,5 @@
+import 'dart:ui' show SemanticsRole;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -96,24 +98,30 @@ class _RecordListState<T> extends State<RecordList<T>> {
                   .toList();
               return RefreshIndicator(
                 onRefresh: widget.refresh,
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: visible.isEmpty
-                      ? [
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Text(context.l10n.noRecords),
-                          ),
-                        ]
-                      : visible
-                            .map(
-                              (e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: widget.card(e),
-                              ),
-                            )
-                            .toList(),
+                child: Semantics(
+                  container: true,
+                  explicitChildNodes: true,
+                  role: SemanticsRole.region,
+                  label: widget.title,
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: visible.isEmpty
+                        ? [
+                            Padding(
+                              padding: const EdgeInsets.all(24),
+                              child: Text(context.l10n.noRecords),
+                            ),
+                          ]
+                        : visible
+                              .map(
+                                (e) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: widget.card(e),
+                                ),
+                              )
+                              .toList(),
+                  ),
                 ),
               );
             },
