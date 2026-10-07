@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  flutter-validation:
+    name: Analyze, test, and build Flutter
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.6'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build debug APK
+        run: flutter build apk --debug
+
+  playwright-e2e:
+    name: Playwright E2E (disabled - requires isolated test backend)
+    runs-on: ubuntu-latest
+    if: ${{ false }}
+
+    # The existing specs use fixed accounts and mutate shared Railway production
+    # data across files without declaring execution order or resetting state.
+    # Running them safely in CI requires an isolated test backend or changes to
+    # the existing test setup, both of which are outside this workflow-only task.
+    steps:
+      - name: Explain why this job is disabled
+        run: echo "Playwright E2E requires an isolated test backend and deterministic test data."
