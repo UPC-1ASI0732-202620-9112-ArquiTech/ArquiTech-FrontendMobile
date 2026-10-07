@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/config/legal_links.dart';
 
 import '../../../../app/localization/localization_context.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
@@ -48,6 +51,28 @@ class MorePage extends ConsumerWidget {
           onTap: () async {
             await ref.read(projectContextProvider.notifier).clear();
             if (context.mounted) context.go('/projects');
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.policy_outlined),
+          title: Text(context.l10n.termsAndConditions),
+          subtitle: Text(context.l10n.legalOpensBrowser),
+          trailing: const Icon(Icons.open_in_new),
+          onTap: () async {
+            bool opened;
+            try {
+              opened = await launchUrl(
+                LegalLinks.terms,
+                mode: LaunchMode.externalApplication,
+              );
+            } catch (_) {
+              opened = false;
+            }
+            if (!opened && context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(context.l10n.legalOpenError)),
+              );
+            }
           },
         ),
         ListTile(

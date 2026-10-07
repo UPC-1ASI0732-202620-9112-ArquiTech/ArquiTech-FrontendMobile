@@ -198,5 +198,8 @@
   "deleteProject": "Delete project",
   "deleteProjectWarning": "This action is irreversible. Workers, tasks, attendance, materials and movements, incidents and machinery of this project will be deleted.",
   "confirmProjectName": "Type the project name to confirm",
-  "projectDeleted": "Project deleted"
+  "projectDeleted": "Project deleted",
+  "termsAndConditions": "Terms and Conditions",
+  "legalOpensBrowser": "Open the public SaaS Agreement in your browser",
+  "legalOpenError": "Could not open the browser. Please try again."
 }

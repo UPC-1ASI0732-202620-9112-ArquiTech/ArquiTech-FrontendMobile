@@ -1291,6 +1291,24 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Proyecto eliminado'**
   String get projectDeleted;
+
+  /// No description provided for @termsAndConditions.
+  ///
+  /// In es, this message translates to:
+  /// **'Términos y Condiciones'**
+  String get termsAndConditions;
+
+  /// No description provided for @legalOpensBrowser.
+  ///
+  /// In es, this message translates to:
+  /// **'Abrir el acuerdo SaaS público en el navegador'**
+  String get legalOpensBrowser;
+
+  /// No description provided for @legalOpenError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir el navegador. Inténtalo de nuevo.'**
+  String get legalOpenError;
 }
 
 class _AppLocalizationsDelegate
