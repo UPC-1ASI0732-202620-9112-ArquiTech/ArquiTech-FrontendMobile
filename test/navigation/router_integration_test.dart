@@ -116,7 +116,14 @@ void main() {
         expect(router.routeInformationProvider.value.uri.path, '/projects');
         router.go('/projects/9/more');
         await tester.pumpAndSettle();
-        await tester.ensureVisible(find.text('Cerrar sesión'));
+        await tester.scrollUntilVisible(
+          find.text('Cerrar sesión'),
+          180,
+          scrollable: find.descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          ),
+        );
         await tester.tap(find.text('Cerrar sesión'));
         await tester.pumpAndSettle();
         expect(router.routeInformationProvider.value.uri.path, '/login');
