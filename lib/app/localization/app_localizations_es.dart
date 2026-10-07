@@ -626,4 +626,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get projectDeleted => 'Proyecto eliminado';
+
+  @override
+  String get termsAndConditions => 'Términos y Condiciones';
+
+  @override
+  String get legalOpensBrowser =>
+      'Abrir el acuerdo SaaS público en el navegador';
+
+  @override
+  String get legalOpenError =>
+      'No se pudo abrir el navegador. Inténtalo de nuevo.';
 }
