@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arquitech/app/app.dart';
@@ -115,6 +116,62 @@ void main() {
         await tester.pumpAndSettle();
         expect(router.routeInformationProvider.value.uri.path, '/projects');
         router.go('/projects/9/more');
+        await tester.pumpAndSettle();
+        const launcherChannel = MethodChannel(
+          'plugins.flutter.io/url_launcher',
+        );
+        final launches = <MethodCall>[];
+        var browserAvailable = true;
+        tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          launcherChannel,
+          (call) async {
+            launches.add(call);
+            return browserAvailable;
+          },
+        );
+        addTearDown(
+          () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+            launcherChannel,
+            null,
+          ),
+        );
+        await tester.scrollUntilVisible(
+          find.text('Términos y Condiciones'),
+          180,
+          scrollable: find.descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          ),
+        );
+        await tester.tap(find.text('Términos y Condiciones'));
+        await tester.pumpAndSettle();
+        expect(launches.single.method, 'launch');
+        expect(
+          launches.single.arguments['url'],
+          'https://upc-1asi0732-202620-9112-arquitech.github.io/ArquiTech-LandingPage/terms/',
+        );
+        expect(launches.single.arguments['useWebView'], false);
+        expect(launches.single.arguments['useSafariVC'], false);
+        expect(
+          router.routeInformationProvider.value.uri.path,
+          '/projects/9/more',
+        );
+        expect(
+          await container.read(secureStorageProvider).readToken(),
+          'test-only-token',
+        );
+        browserAvailable = false;
+        await tester.tap(find.text('Términos y Condiciones'));
+        await tester.pumpAndSettle();
+        expect(
+          find.text('No se pudo abrir el navegador. Inténtalo de nuevo.'),
+          findsOneWidget,
+        );
+        expect(
+          router.routeInformationProvider.value.uri.path,
+          '/projects/9/more',
+        );
+        await tester.pump(const Duration(seconds: 5));
         await tester.pumpAndSettle();
         await tester.scrollUntilVisible(
           find.text('Cerrar sesión'),
