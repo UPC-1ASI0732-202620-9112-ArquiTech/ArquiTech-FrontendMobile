@@ -666,7 +666,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ec08NeedsReview => 'Needs review';
 
   @override
-  String get ec08SyncUnavailable => 'Drafts are saved on this device. Uploading to the server is not available in this version.';
+  String get ec08SyncUnavailable => 'Drafts are saved locally. Upload will be enabled once the server confirms safe synchronization support.';
+
+  @override
+  String get ec08CheckConnection => 'Check connection';
+
+  @override
+  String get ec08DeleteDraftTitle => 'Delete local draft';
+
+  @override
+  String get ec08DeleteDraftMessage => 'Delete this draft from the device? This action does not change server inventory.';
+
+  @override
+  String get ec08DraftDeleted => 'Draft deleted from this device.';
 
   @override
   String get ec08Sync => 'Upload drafts';
