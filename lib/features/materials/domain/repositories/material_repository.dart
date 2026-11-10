@@ -8,5 +8,10 @@ abstract class MaterialRepository {
   Future<void> deleteMaterial(int id);
   Future<MaterialMovement> registerEntry(int id, MaterialEntryRequest request);
   Future<MaterialMovement> registerUsage(int id, MaterialUsageRequest request);
+  Future<bool> supportsOfflineSync();
+  Future<MaterialMovement> registerOfflineMovement(
+    int materialId,
+    OfflineMovementRequest request,
+  );
   Future<List<MaterialMovement>> getHistory(int projectId);
 }
