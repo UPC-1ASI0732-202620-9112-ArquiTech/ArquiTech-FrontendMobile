@@ -8,7 +8,7 @@ import '../../../../core/utils/role_permissions.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../data/ec08_draft_store.dart';
 import '../../data/ec08_material_catalog.dart';
-import '../../domain/entities/material.dart';
+import '../../domain/entities/material.dart' as domain;
 import '../../domain/entities/material_movement.dart';
 import '../controllers/materials_controller.dart';
 
@@ -108,7 +108,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
     }
   }
 
-  Future<void> _cacheMaterials(List<Material> online) async {
+  Future<void> _cacheMaterials(List<domain.Material> online) async {
     final userId = ref.read(sessionControllerProvider).user?.id;
     if (userId == null) return;
     try {
