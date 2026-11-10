@@ -31,6 +31,12 @@ class MaterialsPage extends ConsumerWidget {
         title: Text(context.l10n.materials),
         actions: [
           AlertsButton(projectId: projectId),
+          if (canWrite)
+            IconButton(
+              tooltip: 'EC08 - Borradores sin conexión',
+              icon: const Icon(Icons.offline_pin_outlined),
+              onPressed: () => context.push('/projects/$projectId/materials/ec08-drafts'),
+            ),
           IconButton(
             tooltip: context.l10n.history,
             onPressed: () =>
