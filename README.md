@@ -13,7 +13,7 @@ flutter run
 
 La base URL de producción vive únicamente en `lib/core/config/app_config.dart`:
 
-`https://arquitech-backend-production.up.railway.app/api/v1`
+`https://arquitech-backend-production-cfc2.up.railway.app/api/v1`
 
 Para ejecutar en Chrome contra producción, usa un puerto fijo permitido por CORS:
 
@@ -29,6 +29,14 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8080/api/v1
 ```
 
 Android permite tráfico HTTP solo a `10.0.2.2`; el resto requiere HTTPS. La aplicación declara permiso INTERNET también para builds release. Las cuentas se administran mediante el Backend; no hay credenciales incluidas en la app.
+
+### EC08 · Guardado local de movimientos
+
+En la rama `experiment/ab-evaluation`, el supervisor puede abrir **Movimientos sin conexión** desde Materiales. La lista de materiales del proyecto se conserva localmente cuando el inventario se carga con conexión, de modo que los borradores se pueden crear por nombre y unidad incluso sin red. El catálogo de selección está aislado por usuario y proyecto; los borradores mantienen su almacenamiento persistente por proyecto.
+
+La sincronización sigue **desactivada por defecto** y no permite envíos al Backend de Railway. Para validaciones técnicas de sincronización se necesita el Backend local aislado y la habilitación explícita `EC08_ALLOW_SYNC=true`. Los borradores ya registrados no se eliminan con estas mejoras de interfaz.
+
+La pantalla y su acceso desde Materiales respetan el idioma ES/EN y las restricciones del rol supervisor.
 
 ## Funcionalidad
 
