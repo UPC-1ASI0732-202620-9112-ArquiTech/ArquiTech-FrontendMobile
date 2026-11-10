@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../app/localization/localization_context.dart';
-import '../../../../core/config/app_config.dart';
+import '../../../../core/errors/api_error.dart';
 import '../../../../core/utils/role_permissions.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../data/ec08_draft_store.dart';
@@ -40,33 +42,54 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
   int? _selectedMaterialId;
   _DraftError? _error;
   bool _busy = false;
+  bool _syncSupported = false;
+  bool _checkingSync = false;
+  Timer? _syncProbeTimer;
 
   final _quantity = TextEditingController();
   final _supplier = TextEditingController();
   String _type = 'USAGE';
 
-  static const allowSync = bool.fromEnvironment(
-    'EC08_ALLOW_SYNC',
-    defaultValue: false,
-  );
-
-  bool get syncEnabled =>
-      allowSync &&
-      (AppConfig.apiUri.host == 'localhost' ||
-          AppConfig.apiUri.host == '127.0.0.1' ||
-          AppConfig.apiUri.host == '10.0.2.2');
+  // Only a backend that explicitly supports idempotent writes may receive
+  // offline drafts. Older Railway deployments remain read-only for this flow.
+  bool get syncEnabled => _syncSupported;
 
   @override
   void initState() {
     super.initState();
     _load();
+    _checkSyncSupport();
+    _syncProbeTimer = Timer.periodic(
+      const Duration(seconds: 15),
+      (_) => _checkSyncSupport(),
+    );
   }
 
   @override
   void dispose() {
+    _syncProbeTimer?.cancel();
     _quantity.dispose();
     _supplier.dispose();
     super.dispose();
+  }
+
+  Future<void> _checkSyncSupport() async {
+    if (!mounted || _checkingSync || _busy) return;
+    _checkingSync = true;
+    var supported = false;
+    try {
+      supported = await ref
+          .read(materialsControllerProvider(widget.projectId).notifier)
+          .supportsOfflineSync();
+    } on Object catch (error) {
+      // A missing endpoint or offline network must never enable writes.
+      debugPrint('EC08 sync capability unavailable: $error');
+    } finally {
+      _checkingSync = false;
+    }
+    if (mounted && supported != _syncSupported) {
+      setState(() => _syncSupported = supported);
+    }
   }
 
   Future<void> _load() async {
@@ -216,35 +239,32 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
       for (final draft in store.load(widget.projectId).where(
         (item) => item.state == 'pending',
       )) {
-        // Mark before POST; an uncertain response must not be retried blindly.
-        await store.updateState(draft, 'review');
-        if (mounted) setState(() => _drafts = store.load(widget.projectId));
         try {
-          if (draft.type == 'ENTRY') {
-            await controller.entry(
-              draft.materialId,
-              MaterialEntryRequest(
-                quantity: draft.quantity,
-                supplier: draft.supplier,
-                occurredAt: draft.occurredAt,
-                note: 'EC08 demo draft ${draft.id}',
-              ),
-            );
-          } else {
-            await controller.usage(
-              draft.materialId,
-              MaterialUsageRequest(
-                quantity: draft.quantity,
-                occurredAt: draft.occurredAt,
-                note: 'EC08 demo draft ${draft.id}',
-              ),
-            );
-          }
+          await controller.syncOfflineMovement(
+            draft.materialId,
+            OfflineMovementRequest(
+              clientRequestId: draft.id,
+              type: draft.type == 'ENTRY' ? MovementType.entry : MovementType.usage,
+              quantity: draft.quantity,
+              supplier: draft.supplier,
+              occurredAt: draft.occurredAt,
+              note: 'EC08 offline movement ${draft.id}',
+            ),
+          );
+          // A successful first write or server-confirmed replay are equivalent.
           await store.remove(draft);
           sent++;
         } on Object catch (error) {
-          debugPrint('EC08 sync interrupted: $error');
-          if (mounted) setState(() => _error = _DraftError.review);
+          debugPrint('EC08 idempotent sync interrupted: $error');
+          if (error is ApiError && error.code == 'OFFLINE_REQUEST_CONFLICT') {
+            // A request id used with different content must be reviewed.
+            await store.updateState(draft, 'review');
+            if (mounted) setState(() => _error = _DraftError.review);
+          } else if (mounted) {
+            // Ambiguous network response is safe to retry with the same id:
+            // the backend's unique constraint prevents a second stock change.
+            setState(() => _error = _DraftError.sync);
+          }
           break;
         }
       }
