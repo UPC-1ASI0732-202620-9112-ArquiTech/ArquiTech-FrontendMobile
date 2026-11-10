@@ -315,6 +315,43 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
     }
   }
 
+
+  Future<void> _deleteDraft(Ec08Draft draft) async {
+    final store = _store;
+    if (store == null || _busy) return;
+    final role = ref.read(sessionControllerProvider).user?.role;
+    if (role == null || !RolePermissions.canWriteMaterials(role)) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.ec08DeleteDraftTitle),
+        content: Text(context.l10n.ec08DeleteDraftMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(context.l10n.delete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    try {
+      await store.remove(draft);
+      if (!mounted) return;
+      setState(() => _drafts = store.load(widget.projectId));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ec08DraftDeleted)),
+      );
+    } on Object catch (error) {
+      debugPrint('EC08 local draft deletion failed: $error');
+      if (mounted) setState(() => _error = _DraftError.save);
+    }
+  }
+
   String? _errorText(BuildContext context) => switch (_error) {
     _DraftError.draftLoad => context.l10n.ec08DraftLoadError,
     _DraftError.catalogLoad => context.l10n.ec08CatalogLoadError,
@@ -477,11 +514,22 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
                   '${draft.type == 'ENTRY' ? context.l10n.entry : context.l10n.usage}'
                   ' · ${draft.state == 'review' ? context.l10n.ec08NeedsReview : context.l10n.ec08Pending}',
                 ),
-                trailing: draft.state == 'review' && canWrite
-                    ? IconButton(
-                        tooltip: context.l10n.ec08ReviewConfirm,
-                        icon: const Icon(Icons.fact_check),
-                        onPressed: _busy ? null : () => _rearm(draft),
+                trailing: canWrite
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (draft.state == 'review')
+                            IconButton(
+                              tooltip: context.l10n.ec08ReviewConfirm,
+                              icon: const Icon(Icons.fact_check),
+                              onPressed: _busy ? null : () => _rearm(draft),
+                            ),
+                          IconButton(
+                            tooltip: context.l10n.ec08DeleteDraftTitle,
+                            icon: const Icon(Icons.delete_outline),
+                            onPressed: _busy ? null : () => _deleteDraft(draft),
+                          ),
+                        ],
                       )
                     : null,
               ),
@@ -493,6 +541,12 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
             Text(
               context.l10n.ec08SyncUnavailable,
               style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              onPressed: _checkingSync ? null : _checkSyncSupport,
+              icon: const Icon(Icons.wifi_find_outlined),
+              label: Text(context.l10n.ec08CheckConnection),
             ),
             const SizedBox(height: 8),
           ],
