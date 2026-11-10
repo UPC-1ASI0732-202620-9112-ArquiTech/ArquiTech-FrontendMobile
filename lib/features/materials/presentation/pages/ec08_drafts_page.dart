@@ -2,44 +2,68 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../app/localization/localization_context.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../core/utils/role_permissions.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../data/ec08_draft_store.dart';
+import '../../data/ec08_material_catalog.dart';
+import '../../domain/entities/material.dart';
 import '../../domain/entities/material_movement.dart';
 import '../controllers/materials_controller.dart';
 
-/// EC08 B: drafts stored locally. Synchronization is opt-in on a local API.
+/// Offline draft entry. Sending is explicitly opt-in and restricted to local APIs.
 class Ec08DraftsPage extends ConsumerStatefulWidget {
   const Ec08DraftsPage({super.key, required this.projectId});
+
   final int projectId;
 
   @override
   ConsumerState<Ec08DraftsPage> createState() => _Ec08DraftsPageState();
 }
 
+enum _DraftError {
+  draftLoad,
+  catalogLoad,
+  material,
+  quantity,
+  supplier,
+  save,
+  sync,
+  review,
+}
+
 class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
   Ec08DraftStore? _store;
   List<Ec08Draft> _drafts = const [];
-  String? _error;
+  List<Ec08CatalogMaterial> _materials = const [];
+  int? _selectedMaterialId;
+  _DraftError? _error;
   bool _busy = false;
-  final _materialId = TextEditingController();
+
   final _quantity = TextEditingController();
   final _supplier = TextEditingController();
   String _type = 'USAGE';
 
-  static const allowSync = bool.fromEnvironment('EC08_ALLOW_SYNC', defaultValue: false);
-  bool get syncEnabled => allowSync && (
-    AppConfig.apiUri.host == 'localhost' ||
-    AppConfig.apiUri.host == '127.0.0.1' ||
-    AppConfig.apiUri.host == '10.0.2.2'
+  static const allowSync = bool.fromEnvironment(
+    'EC08_ALLOW_SYNC',
+    defaultValue: false,
   );
 
+  bool get syncEnabled =>
+      allowSync &&
+      (AppConfig.apiUri.host == 'localhost' ||
+          AppConfig.apiUri.host == '127.0.0.1' ||
+          AppConfig.apiUri.host == '10.0.2.2');
+
   @override
-  void initState() { super.initState(); _load(); }
+  void initState() {
+    super.initState();
+    _load();
+  }
+
   @override
   void dispose() {
-    _materialId.dispose();
     _quantity.dispose();
     _supplier.dispose();
     super.dispose();
@@ -50,36 +74,126 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
       final prefs = await SharedPreferences.getInstance();
       final store = Ec08DraftStore(prefs);
       final drafts = store.load(widget.projectId);
-      if (mounted) setState(() { _store = store; _drafts = drafts; _error = null; });
-    } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo abrir la cola local: $error');
+
+      var materials = <Ec08CatalogMaterial>[];
+      _DraftError? warning;
+      final userId = ref.read(sessionControllerProvider).user?.id;
+      if (userId != null) {
+        try {
+          final catalog = Ec08MaterialCatalog(prefs);
+          final online = ref
+              .read(materialsControllerProvider(widget.projectId))
+              .asData
+              ?.value;
+          if (online != null) {
+            await catalog.save(userId, widget.projectId, online);
+          }
+          materials = catalog.load(userId, widget.projectId);
+        } on Object catch (error) {
+          debugPrint('EC08 material catalog error: $error');
+          warning = _DraftError.catalogLoad;
+        }
+      }
+      if (!mounted) return;
+      setState(() {
+        _store = store;
+        _drafts = drafts;
+        _materials = materials;
+        _selectedMaterialId = materials.isEmpty ? null : materials.first.id;
+        _error = warning;
+      });
+    } on Object catch (error) {
+      debugPrint('EC08 draft loading error: $error');
+      if (mounted) setState(() => _error = _DraftError.draftLoad);
     }
   }
+
+  Future<void> _cacheMaterials(List<Material> online) async {
+    final userId = ref.read(sessionControllerProvider).user?.id;
+    if (userId == null) return;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final catalog = Ec08MaterialCatalog(prefs);
+      await catalog.save(userId, widget.projectId, online);
+      final items = catalog.load(userId, widget.projectId);
+      if (!mounted) return;
+      setState(() {
+        _materials = items;
+        if (!items.any((item) => item.id == _selectedMaterialId)) {
+          _selectedMaterialId = items.isEmpty ? null : items.first.id;
+        }
+        if (_error == _DraftError.catalogLoad) _error = null;
+      });
+    } on Object catch (error) {
+      debugPrint('EC08 material catalog refresh error: $error');
+      if (mounted) setState(() => _error = _DraftError.catalogLoad);
+    }
+  }
+
+  Ec08CatalogMaterial? get selectedMaterial {
+    for (final material in _materials) {
+      if (material.id == _selectedMaterialId) return material;
+    }
+    return null;
+  }
+
+  Ec08CatalogMaterial? _materialFor(int id) {
+    for (final material in _materials) {
+      if (material.id == id) return material;
+    }
+    return null;
+  }
+
+  String _quantityLabel(double value) =>
+      value == value.roundToDouble()
+          ? value.toStringAsFixed(0)
+          : value.toString();
 
   Future<void> _save() async {
     final store = _store;
     if (store == null || _busy) return;
-    final material = int.tryParse(_materialId.text.trim());
-    final quantity = double.tryParse(_quantity.text.trim());
-    if (material == null || material <= 0 || quantity == null || !quantity.isFinite || quantity <= 0 ||
-        (_type == 'ENTRY' && _supplier.text.trim().isEmpty)) {
-      setState(() => _error = 'Se requiere un material válido, cantidad positiva y proveedor para entradas.');
+    final material = selectedMaterial;
+    final quantity = double.tryParse(_quantity.text.trim().replaceAll(',', '.'));
+    if (material == null) {
+      setState(() => _error = _DraftError.material);
       return;
     }
-    setState(() { _busy = true; _error = null; });
+    if (quantity == null || !quantity.isFinite || quantity <= 0) {
+      setState(() => _error = _DraftError.quantity);
+      return;
+    }
+    if (_type == 'ENTRY' && _supplier.text.trim().isEmpty) {
+      setState(() => _error = _DraftError.supplier);
+      return;
+    }
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     try {
       final now = DateTime.now().toUtc();
       await store.add(Ec08Draft(
         id: '${widget.projectId}-${now.microsecondsSinceEpoch}',
-        projectId: widget.projectId, materialId: material,
-        type: _type, quantity: quantity, supplier: _supplier.text.trim(),
-        occurredAt: now, state: 'pending',
+        projectId: widget.projectId,
+        materialId: material.id,
+        type: _type,
+        quantity: quantity,
+        supplier: _type == 'ENTRY' ? _supplier.text.trim() : '',
+        occurredAt: now,
+        state: 'pending',
       ));
-      if (mounted) {
-        setState(() { _drafts = store.load(widget.projectId); _materialId.clear(); _quantity.clear(); });
-      }
-    } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo guardar: $error');
+      if (!mounted) return;
+      setState(() {
+        _drafts = store.load(widget.projectId);
+        _quantity.clear();
+        _supplier.clear();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ec08DraftSaved)),
+      );
+    } on Object catch (error) {
+      debugPrint('EC08 draft save error: $error');
+      if (mounted) setState(() => _error = _DraftError.save);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -90,44 +204,60 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
     if (store == null || _busy || !syncEnabled) return;
     final role = ref.read(sessionControllerProvider).user?.role;
     if (role == null || !RolePermissions.canWriteMaterials(role)) return;
-    setState(() { _busy = true; _error = null; });
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     var sent = 0;
     try {
-      final controller = ref.read(materialsControllerProvider(widget.projectId).notifier);
-      for (final draft in store.load(widget.projectId).where((d) => d.state == 'pending')) {
-        // Mark BEFORE POST: an uncertain response must not be retried blindly.
+      final controller = ref.read(
+        materialsControllerProvider(widget.projectId).notifier,
+      );
+      for (final draft in store.load(widget.projectId).where(
+        (item) => item.state == 'pending',
+      )) {
+        // Mark before POST; an uncertain response must not be retried blindly.
         await store.updateState(draft, 'review');
         if (mounted) setState(() => _drafts = store.load(widget.projectId));
         try {
           if (draft.type == 'ENTRY') {
-            await controller.entry(draft.materialId, MaterialEntryRequest(
-              quantity: draft.quantity, supplier: draft.supplier,
-              occurredAt: draft.occurredAt, note: 'EC08 demo draft ${draft.id}',
-            ));
+            await controller.entry(
+              draft.materialId,
+              MaterialEntryRequest(
+                quantity: draft.quantity,
+                supplier: draft.supplier,
+                occurredAt: draft.occurredAt,
+                note: 'EC08 demo draft ${draft.id}',
+              ),
+            );
           } else {
-            await controller.usage(draft.materialId, MaterialUsageRequest(
-              quantity: draft.quantity, occurredAt: draft.occurredAt,
-              note: 'EC08 demo draft ${draft.id}',
-            ));
+            await controller.usage(
+              draft.materialId,
+              MaterialUsageRequest(
+                quantity: draft.quantity,
+                occurredAt: draft.occurredAt,
+                note: 'EC08 demo draft ${draft.id}',
+              ),
+            );
           }
           await store.remove(draft);
           sent++;
-        } catch (error) {
-          if (mounted) {
-            setState(() => _error =
-              'Sincronización interrumpida: verifica historial antes de reintentar. $error');
-          }
+        } on Object catch (error) {
+          debugPrint('EC08 sync interrupted: $error');
+          if (mounted) setState(() => _error = _DraftError.review);
           break;
         }
       }
-      if (mounted) setState(() => _drafts = store.load(widget.projectId));
-      if (mounted && _error == null) {
+      if (!mounted) return;
+      setState(() => _drafts = store.load(widget.projectId));
+      if (_error == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$sent borradores confirmados y eliminados de la cola.')),
+          SnackBar(content: Text('${context.l10n.ec08Sent} $sent')),
         );
       }
-    } catch (error) {
-      if (mounted) setState(() => _error = 'Error de sincronización: $error');
+    } on Object catch (error) {
+      debugPrint('EC08 sync error: $error');
+      if (mounted) setState(() => _error = _DraftError.sync);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -135,86 +265,224 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
 
   Future<void> _rearm(Ec08Draft draft) async {
     final store = _store;
-    if (store == null) return;
+    if (store == null || _busy) return;
+    final role = ref.read(sessionControllerProvider).user?.role;
+    if (role == null || !RolePermissions.canWriteMaterials(role)) return;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Comprobar duplicados antes de repetir'),
-        content: const Text(
-          'Comprueba el historial: si el movimiento ya llegó al servidor, no lo reenvíes. '
-          '¿Confirmas que verificaste que no existe?'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.ec08ReviewTitle),
+        content: Text(context.l10n.ec08ReviewMessage),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Confirmar revisión')),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(context.l10n.ec08ReviewConfirm),
+          ),
         ],
       ),
     );
-    if (confirmed != true) return;
-    await store.updateState(draft, 'pending');
-    await _load();
+    if (confirmed != true || !mounted) return;
+    try {
+      await store.updateState(draft, 'pending');
+      await _load();
+    } on Object catch (error) {
+      debugPrint('EC08 retry review error: $error');
+      if (mounted) setState(() => _error = _DraftError.review);
+    }
   }
+
+  String? _errorText(BuildContext context) => switch (_error) {
+    _DraftError.draftLoad => context.l10n.ec08DraftLoadError,
+    _DraftError.catalogLoad => context.l10n.ec08CatalogLoadError,
+    _DraftError.material => context.l10n.ec08MaterialRequired,
+    _DraftError.quantity => context.l10n.positiveNumber,
+    _DraftError.supplier => context.l10n.requiredField,
+    _DraftError.save => context.l10n.ec08DraftSaveError,
+    _DraftError.sync => context.l10n.ec08SyncError,
+    _DraftError.review => context.l10n.ec08SyncReview,
+    null => null,
+  };
 
   @override
   Widget build(BuildContext context) {
     final role = ref.watch(sessionControllerProvider).user?.role;
     final canWrite = role != null && RolePermissions.canWriteMaterials(role);
+    // Refresh cached labels whenever inventory data becomes available.
+    ref.listen(materialsControllerProvider(widget.projectId), (_, next) {
+      final online = next.asData?.value;
+      if (online != null) _cacheMaterials(online);
+    });
+
+    final error = _errorText(context);
+    final chosen = selectedMaterial;
     return Scaffold(
-      appBar: AppBar(title: const Text('EC08 - Borradores sin conexión')),
+      appBar: AppBar(title: Text(context.l10n.ec08PageTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Card(child: Padding(
-            padding: EdgeInsets.all(14),
-            child: Text('Variante B experimental. Borradores persistentes en dispositivo; '
-              'sincronización únicamente con API local de prueba. '
-              'Sin claves de idempotencia del servidor no se garantiza exactamente una entrega.'),
-          )),
-          if (_error != null)
-            Padding(padding: const EdgeInsets.all(8), child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error))),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.cloud_off_outlined),
+                  const SizedBox(width: 12),
+                  Expanded(child: Text(context.l10n.ec08Description)),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (error != null) ...[
+            Text(
+              error,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+            const SizedBox(height: 12),
+          ],
           if (!canWrite)
-            const Text('Solo un supervisor puede registrar movimientos.')
+            Text(context.l10n.ec08SupervisorOnly)
           else ...[
-            TextField(controller: _materialId, decoration: const InputDecoration(
-              labelText: 'ID del material', helperText: 'Material existente del proyecto de ensayo')),
-            TextField(controller: _quantity, keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Cantidad')),
+            if (_materials.isEmpty) ...[
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(context.l10n.ec08CatalogMissing),
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
+            DropdownButtonFormField<int>(
+              key: ValueKey('ec08-material-${_selectedMaterialId ?? 'none'}'),
+              initialValue: chosen?.id,
+              isExpanded: true,
+              decoration: InputDecoration(
+                labelText: context.l10n.materialName,
+                border: const OutlineInputBorder(),
+              ),
+              items: [
+                for (final material in _materials)
+                  DropdownMenuItem(
+                    value: material.id,
+                    child: Text(
+                      '${material.name} (${material.unit})',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
+              onChanged: _busy || _materials.isEmpty
+                  ? null
+                  : (value) => setState(() => _selectedMaterialId = value),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _quantity,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: context.l10n.ec08Quantity,
+                suffixText: chosen?.unit,
+                border: const OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _type,
-              decoration: const InputDecoration(labelText: 'Operación'),
-              items: const [
-                DropdownMenuItem(value: 'USAGE', child: Text('Uso')),
-                DropdownMenuItem(value: 'ENTRY', child: Text('Entrada')),
+              isExpanded: true,
+              decoration: InputDecoration(
+                labelText: context.l10n.ec08Operation,
+                border: const OutlineInputBorder(),
+              ),
+              items: [
+                DropdownMenuItem(
+                  value: 'USAGE',
+                  child: Text(context.l10n.usage),
+                ),
+                DropdownMenuItem(
+                  value: 'ENTRY',
+                  child: Text(context.l10n.entry),
+                ),
               ],
-              onChanged: (value) => setState(() => _type = value ?? 'USAGE'),
+              onChanged: _busy
+                  ? null
+                  : (value) => setState(() => _type = value ?? 'USAGE'),
             ),
-            if (_type == 'ENTRY')
-              TextField(controller: _supplier, decoration: const InputDecoration(labelText: 'Proveedor')),
-            const SizedBox(height: 12),
-            FilledButton(onPressed: _busy || _store == null ? null : _save,
-              child: const Text('Guardar borrador local')),
+            if (_type == 'ENTRY') ...[
+              const SizedBox(height: 16),
+              TextField(
+                controller: _supplier,
+                decoration: InputDecoration(
+                  labelText: context.l10n.supplier,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ],
+            const SizedBox(height: 20),
+            FilledButton.icon(
+              onPressed: _busy || _store == null || _materials.isEmpty
+                  ? null
+                  : _save,
+              icon: const Icon(Icons.save_outlined),
+              label: Text(context.l10n.ec08SaveDraft),
+            ),
           ],
-          const SizedBox(height: 18),
-          Text('Borradores pendientes (${_drafts.length})',
-            style: Theme.of(context).textTheme.titleLarge),
-          for (final draft in _drafts)
-            Card(child: ListTile(
-              title: Text('${draft.type} - material #${draft.materialId} - ${draft.quantity}'),
-              subtitle: Text("ID: ${draft.id}\n${draft.state == 'review' ? 'Revisar antes de repetir' : 'Pendiente'}"),
-              isThreeLine: true,
-              trailing: draft.state == 'review'
-                ? IconButton(tooltip: 'Verificar antes del reintento',
-                    icon: const Icon(Icons.fact_check), onPressed: () => _rearm(draft))
-                : const Icon(Icons.cloud_upload_outlined),
-            )),
-          const SizedBox(height: 12),
-          if (!syncEnabled) const Text(
-            'Sincronización desactivada. Ejecuta con EC08_ALLOW_SYNC=true y '
-            'API_BASE_URL apuntando a un servidor local de ensayo, nunca producción.'),
+          const SizedBox(height: 24),
+          Text(
+            '${context.l10n.ec08SavedDrafts} (${_drafts.length})',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          if (_drafts.isEmpty) ...[
+            Text(context.l10n.ec08EmptyDrafts),
+            const SizedBox(height: 10),
+          ],
+          for (final draft in _drafts) ...[
+            Card(
+              child: ListTile(
+                leading: Icon(
+                  draft.state == 'review'
+                      ? Icons.fact_check_outlined
+                      : Icons.cloud_off_outlined,
+                ),
+                title: Text(
+                  '${_materialFor(draft.materialId)?.name ?? '#${draft.materialId}'}'
+                  ' · ${_quantityLabel(draft.quantity)}'
+                  ' ${_materialFor(draft.materialId)?.unit ?? ''}',
+                ),
+                subtitle: Text(
+                  '${draft.type == 'ENTRY' ? context.l10n.entry : context.l10n.usage}'
+                  ' · ${draft.state == 'review' ? context.l10n.ec08NeedsReview : context.l10n.ec08Pending}',
+                ),
+                trailing: draft.state == 'review' && canWrite
+                    ? IconButton(
+                        tooltip: context.l10n.ec08ReviewConfirm,
+                        icon: const Icon(Icons.fact_check),
+                        onPressed: _busy ? null : () => _rearm(draft),
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(height: 6),
+          ],
+          const SizedBox(height: 16),
+          if (!syncEnabled) ...[
+            Text(
+              context.l10n.ec08SyncUnavailable,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(height: 8),
+          ],
           FilledButton.icon(
             onPressed: syncEnabled && !_busy && canWrite &&
-              _drafts.any((d) => d.state == 'pending') ? _sync : null,
+                    _drafts.any((draft) => draft.state == 'pending')
+                ? _sync
+                : null,
             icon: const Icon(Icons.sync),
-            label: const Text('Sincronizar con API local de ensayo'),
+            label: Text(context.l10n.ec08Sync),
           ),
         ],
       ),
