@@ -34,7 +34,11 @@ Android permite tráfico HTTP solo a `10.0.2.2`; el resto requiere HTTPS. La apl
 
 En la rama `experiment/ab-evaluation`, el supervisor puede abrir **Movimientos sin conexión** desde Materiales. La lista de materiales del proyecto se conserva localmente cuando el inventario se carga con conexión, de modo que los borradores se pueden crear por nombre y unidad incluso sin red. El catálogo de selección está aislado por usuario y proyecto; los borradores mantienen su almacenamiento persistente por proyecto.
 
-La sincronización sigue **desactivada por defecto** y no permite envíos al Backend de Railway. Para validaciones técnicas de sincronización se necesita el Backend local aislado y la habilitación explícita `EC08_ALLOW_SYNC=true`. Los borradores ya registrados no se eliminan con estas mejoras de interfaz.
+La sincronización **solo se habilita cuando el servidor anuncia** `idempotentOfflineMovements: true` a través de `GET /api/v1/materials/offline-sync-capabilities`. Los servidores anteriores no admiten envíos de EC08. El botón «Comprobar conexión» y una comprobación periódica detectan la compatibilidad al recuperar internet.
+
+Cada borrador conserva su `clientRequestId` hasta obtener confirmación del endpoint `POST /api/v1/materials/{id}/offline-movements`. Si se pierde una respuesta, el borrador puede reenviarse sin aplicar el movimiento dos veces: el Backend devuelve el movimiento ya registrado. Un conflicto de contenido requiere revisión manual, y los borradores pueden descartarse localmente con confirmación. Las colas existentes conservan sus registros. El **PR del Backend** que implementa este contrato debe validarse y desplegarse antes de activar envíos contra Railway.
+
+Para validar el protocolo de extremo a extremo, se recomienda un Backend y una base de datos aislados, usando datos de pruebas y verificando historial, saldos y reintentos antes de desplegarlo en Railway.
 
 La pantalla y su acceso desde Materiales respetan el idioma ES/EN y las restricciones del rol supervisor.
 
