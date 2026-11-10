@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -195,8 +196,12 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
     });
     try {
       final now = DateTime.now().toUtc();
+      final rng = Random.secure();
+      final token = List<int>.generate(16, (_) => rng.nextInt(256))
+          .map((value) => value.toRadixString(16).padLeft(2, '0'))
+          .join();
       await store.add(Ec08Draft(
-        id: '${widget.projectId}-${now.microsecondsSinceEpoch}',
+        id: '${widget.projectId}-$token',
         projectId: widget.projectId,
         materialId: material.id,
         type: _type,
