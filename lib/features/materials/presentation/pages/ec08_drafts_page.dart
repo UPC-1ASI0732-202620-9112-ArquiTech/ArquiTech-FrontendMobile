@@ -52,7 +52,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
       final drafts = store.load(widget.projectId);
       if (mounted) setState(() { _store = store; _drafts = drafts; _error = null; });
     } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo abrir la cola local: ' + error.toString());
+      if (mounted) setState(() => _error = 'No se pudo abrir la cola local: ${error}');
     }
   }
 
@@ -70,7 +70,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
     try {
       final now = DateTime.now().toUtc();
       await store.add(Ec08Draft(
-        id: widget.projectId.toString() + '-' + now.microsecondsSinceEpoch.toString(),
+        id: '${widget.projectId}-${now.microsecondsSinceEpoch}',
         projectId: widget.projectId, materialId: material,
         type: _type, quantity: quantity, supplier: _supplier.text.trim(),
         occurredAt: now, state: 'pending',
@@ -79,7 +79,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
         setState(() { _drafts = store.load(widget.projectId); _materialId.clear(); _quantity.clear(); });
       }
     } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo guardar: ' + error.toString());
+      if (mounted) setState(() => _error = 'No se pudo guardar: ${error}');
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -102,30 +102,32 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
           if (draft.type == 'ENTRY') {
             await controller.entry(draft.materialId, MaterialEntryRequest(
               quantity: draft.quantity, supplier: draft.supplier,
-              occurredAt: draft.occurredAt, note: 'EC08 demo draft ' + draft.id,
+              occurredAt: draft.occurredAt, note: 'EC08 demo draft ${draft.id}',
             ));
           } else {
             await controller.usage(draft.materialId, MaterialUsageRequest(
               quantity: draft.quantity, occurredAt: draft.occurredAt,
-              note: 'EC08 demo draft ' + draft.id,
+              note: 'EC08 demo draft ${draft.id}',
             ));
           }
           await store.remove(draft);
           sent++;
         } catch (error) {
-          if (mounted) setState(() => _error =
-            'Sincronización interrumpida: verifica historial antes de reintentar. ' + error.toString());
+          if (mounted) {
+            setState(() => _error =
+              'Sincronización interrumpida: verifica historial antes de reintentar. ${error}');
+          }
           break;
         }
       }
       if (mounted) setState(() => _drafts = store.load(widget.projectId));
       if (mounted && _error == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(sent.toString() + ' borradores confirmados y eliminados de la cola.')),
+          SnackBar(content: Text('${sent} borradores confirmados y eliminados de la cola.')),
         );
       }
     } catch (error) {
-      if (mounted) setState(() => _error = 'Error de sincronización: ' + error.toString());
+      if (mounted) setState(() => _error = 'Error de sincronización: ${error}');
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -177,7 +179,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
             TextField(controller: _quantity, keyboardType: const TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(labelText: 'Cantidad')),
             DropdownButtonFormField<String>(
-              value: _type,
+              initialValue: _type,
               decoration: const InputDecoration(labelText: 'Operación'),
               items: const [
                 DropdownMenuItem(value: 'USAGE', child: Text('Uso')),
@@ -192,13 +194,12 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
               child: const Text('Guardar borrador local')),
           ],
           const SizedBox(height: 18),
-          Text('Borradores pendientes (' + _drafts.length.toString() + ')',
+          Text('Borradores pendientes (${_drafts.length})',
             style: Theme.of(context).textTheme.titleLarge),
           for (final draft in _drafts)
             Card(child: ListTile(
-              title: Text(draft.type + ' - material #' + draft.materialId.toString() +
-                ' - ' + draft.quantity.toString()),
-              subtitle: Text('ID: ' + draft.id + '\n' +
+              title: Text('${draft.type} - material #${draft.materialId} - ${draft.quantity}'),
+              subtitle: Text('ID: ${draft.id}\n' +
                 (draft.state == 'review' ? 'Revisar antes de repetir' : 'Pendiente')),
               isThreeLine: true,
               trailing: draft.state == 'review'
