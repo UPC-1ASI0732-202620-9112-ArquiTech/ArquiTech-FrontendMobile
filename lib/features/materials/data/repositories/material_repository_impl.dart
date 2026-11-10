@@ -19,6 +19,15 @@ class MaterialRepositoryImpl implements MaterialRepository {
   Future<List<Material>> getMaterials(int projectId) =>
       _remote.getMaterials(projectId);
   @override
+  Future<bool> supportsOfflineSync() => _remote.supportsOfflineSync();
+
+  @override
+  Future<MaterialMovement> registerOfflineMovement(
+    int materialId,
+    OfflineMovementRequest request,
+  ) => _remote.registerOfflineMovement(materialId, request);
+
+  @override
   Future<MaterialMovement> registerEntry(
     int id,
     MaterialEntryRequest request,
