@@ -52,7 +52,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
       final drafts = store.load(widget.projectId);
       if (mounted) setState(() { _store = store; _drafts = drafts; _error = null; });
     } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo abrir la cola local: ${error}');
+      if (mounted) setState(() => _error = 'No se pudo abrir la cola local: $error');
     }
   }
 
@@ -79,7 +79,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
         setState(() { _drafts = store.load(widget.projectId); _materialId.clear(); _quantity.clear(); });
       }
     } catch (error) {
-      if (mounted) setState(() => _error = 'No se pudo guardar: ${error}');
+      if (mounted) setState(() => _error = 'No se pudo guardar: $error');
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -115,7 +115,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
         } catch (error) {
           if (mounted) {
             setState(() => _error =
-              'Sincronización interrumpida: verifica historial antes de reintentar. ${error}');
+              'Sincronización interrumpida: verifica historial antes de reintentar. $error');
           }
           break;
         }
@@ -123,11 +123,11 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
       if (mounted) setState(() => _drafts = store.load(widget.projectId));
       if (mounted && _error == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${sent} borradores confirmados y eliminados de la cola.')),
+          SnackBar(content: Text('$sent borradores confirmados y eliminados de la cola.')),
         );
       }
     } catch (error) {
-      if (mounted) setState(() => _error = 'Error de sincronización: ${error}');
+      if (mounted) setState(() => _error = 'Error de sincronización: $error');
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -199,8 +199,7 @@ class _Ec08DraftsPageState extends ConsumerState<Ec08DraftsPage> {
           for (final draft in _drafts)
             Card(child: ListTile(
               title: Text('${draft.type} - material #${draft.materialId} - ${draft.quantity}'),
-              subtitle: Text('ID: ${draft.id}\n' +
-                (draft.state == 'review' ? 'Revisar antes de repetir' : 'Pendiente')),
+              subtitle: Text("ID: ${draft.id}\n${draft.state == 'review' ? 'Revisar antes de repetir' : 'Pendiente'}"),
               isThreeLine: true,
               trailing: draft.state == 'review'
                 ? IconButton(tooltip: 'Verificar antes del reintento',
