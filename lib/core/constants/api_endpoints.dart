@@ -15,6 +15,9 @@ abstract final class ApiEndpoints {
   static String material(int materialId) => '/materials/$materialId';
   static String materialEntry(int materialId) => '/materials/$materialId/entry';
   static String materialUsage(int materialId) => '/materials/$materialId/use';
+  static const offlineSyncCapabilities = '/materials/offline-sync-capabilities';
+  static String offlineMovement(int materialId) =>
+      '/materials/$materialId/offline-movements';
   static String materialHistory(int projectId) =>
       '/materials/project/$projectId/history';
   static const workers = '/workers';
