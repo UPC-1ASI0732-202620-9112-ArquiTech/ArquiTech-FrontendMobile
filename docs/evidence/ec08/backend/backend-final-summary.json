@@ -1,0 +1,20 @@
+[
+  {
+    "variant": "A",
+    "projectId": 1,
+    "materialId": 1,
+    "stock": 999.0,
+    "totalReceived": 1000.0,
+    "movementCount": 2,
+    "usageCount": 1
+  },
+  {
+    "variant": "B",
+    "projectId": 2,
+    "materialId": 2,
+    "stock": 180.0,
+    "totalReceived": 1000.0,
+    "movementCount": 41,
+    "usageCount": 40
+  }
+]

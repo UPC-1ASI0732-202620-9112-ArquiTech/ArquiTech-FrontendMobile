@@ -1,0 +1,16 @@
+[
+  {
+    "id": 2,
+    "materialId": 2,
+    "projectId": 2,
+    "materialName": "Material EC08",
+    "unit": "kg",
+    "type": "ENTRY",
+    "quantity": 1000.0,
+    "supplier": "Proveedor EC08",
+    "registeredByUserId": 1,
+    "registeredByName": "EC08 Supervisor",
+    "occurredAt": "2026-11-01T00:00:00Z",
+    "note": "Initial inventory"
+  }
+]

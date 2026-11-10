@@ -61,6 +61,18 @@ class MaterialsController extends StateNotifier<AsyncValue<List<Material>>> {
     await refresh();
   }
 
+  Future<bool> supportsOfflineSync() => _repository.supportsOfflineSync();
+
+  Future<MaterialMovement> syncOfflineMovement(
+    int materialId,
+    OfflineMovementRequest request,
+  ) async {
+    final result = await _repository.registerOfflineMovement(materialId, request);
+    // The response may have been replayed. Refresh the authoritative stock.
+    await refresh();
+    return result;
+  }
+
   Future<MaterialMovement> entry(int id, MaterialEntryRequest request) async {
     final result = await _repository.registerEntry(id, request);
     await refresh();

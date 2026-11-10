@@ -1,0 +1,68 @@
+2026-11-10T12:22:52.5548340Z variant=B history=b-backend-before rows=1
+2026-11-10T12:22:52.7404877Z network_requested=True
+2026-11-10T12:22:55.3819328Z backend_reachable_from_android=True
+2026-11-10T12:22:55.5311286Z network_requested=False
+2026-11-10T12:22:57.6418297Z backend_reachable_from_android=False
+2026-11-10T12:23:03.1083654Z variant=B queue=b-queue-first rows=1
+2026-11-10T12:24:11.2165785Z variant=B queue=b-queue-offline rows=40
+2026-11-10T12:24:11.3007008Z variant=B history=b-backend-offline rows=1
+2026-11-10T12:24:14.8118265Z variant=B queue=b-queue-after-restart rows=40
+2026-11-10T12:24:54.8956031Z variant=B restore_started
+2026-11-10T12:24:55.1040021Z network_requested=True
+2026-11-10T12:24:57.2640592Z backend_reachable_from_android=True
+2026-11-10T12:25:28.1393063Z variant=B sync_tapped
+2026-11-10T12:25:45.5881855Z variant=B observed=40 seconds_since_tap=17.4408786 seconds_since_restore_started=50.7253266
+2026-11-10T12:25:47.7164581Z variant=B history=b-backend-after rows=41
+2026-11-10T12:25:47.9070157Z variant=B queue=b-queue-after-sync rows=0
+2026-11-10T12:27:13.4066327Z variant=A history=a-backend-before rows=1
+2026-11-10T12:27:13.8683167Z network_requested=True
+2026-11-10T12:27:16.0909769Z backend_reachable_from_android=True
+2026-11-10T12:27:16.3961087Z network_requested=False
+2026-11-10T12:27:18.5424061Z backend_reachable_from_android=False
+2026-11-10T12:27:30.2866320Z variant=A attempt=1 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:27:40.1658131Z variant=A attempt=2 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:27:50.4809479Z variant=A attempt=3 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:00.6655772Z variant=A attempt=4 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:11.1152952Z variant=A attempt=5 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:21.1241730Z variant=A attempt=6 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:31.2370690Z variant=A attempt=7 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:41.7039292Z variant=A attempt=8 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:28:52.3874770Z variant=A attempt=9 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:02.5087561Z variant=A attempt=10 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:12.8649100Z variant=A attempt=11 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:22.9815484Z variant=A attempt=12 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:33.4690274Z variant=A attempt=13 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:43.7660169Z variant=A attempt=14 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:29:54.0012190Z variant=A attempt=15 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:04.8021793Z variant=A attempt=16 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:14.9152596Z variant=A attempt=17 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:24.8625769Z variant=A attempt=18 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:35.6828455Z variant=A attempt=19 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:46.2670188Z variant=A attempt=20 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:30:57.6405362Z variant=A attempt=21 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:07.5775788Z variant=A attempt=22 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:17.8264270Z variant=A attempt=23 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:28.1135881Z variant=A attempt=24 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:38.2310705Z variant=A attempt=25 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:48.3119245Z variant=A attempt=26 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:31:58.6118361Z variant=A attempt=27 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:08.9100410Z variant=A attempt=28 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:19.1999231Z variant=A attempt=29 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:29.4908496Z variant=A attempt=30 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:39.5376659Z variant=A attempt=31 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:49.6719172Z variant=A attempt=32 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:32:59.9388209Z variant=A attempt=33 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:33:10.0920807Z variant=A attempt=34 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:33:20.2368319Z variant=A attempt=35 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:33:30.3443703Z variant=A attempt=36 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:33:40.7667662Z variant=A attempt=37 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:33:50.7178419Z variant=A attempt=38 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:34:01.2651271Z variant=A attempt=39 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:34:10.8942119Z variant=A attempt=40 quantity_retained_in_open_form=True network_message=True
+2026-11-10T12:34:11.5692920Z variant=A history=a-backend-offline rows=1
+2026-11-10T12:34:16.1434579Z variant=A restore_started
+2026-11-10T12:34:16.3257442Z network_requested=True
+2026-11-10T12:34:18.6238032Z backend_reachable_from_android=True
+2026-11-10T12:34:49.3141575Z variant=A reopened_quantity_empty=True
+2026-11-10T12:34:50.0921828Z variant=A history=a-backend-reconnected-before-reentry rows=1
+2026-11-10T12:34:59.9439162Z variant=A history=a-backend-after-one-reentry rows=2

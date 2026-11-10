@@ -1309,6 +1309,162 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No se pudo abrir el navegador. Inténtalo de nuevo.'**
   String get legalOpenError;
+
+  /// No description provided for @ec08PageTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Movimientos sin conexión'**
+  String get ec08PageTitle;
+
+  /// No description provided for @ec08Description.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda movimientos en este dispositivo para revisarlos cuando vuelvas a tener conexión.'**
+  String get ec08Description;
+
+  /// No description provided for @ec08SupervisorOnly.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo un supervisor puede registrar movimientos.'**
+  String get ec08SupervisorOnly;
+
+  /// No description provided for @ec08CatalogMissing.
+  ///
+  /// In es, this message translates to:
+  /// **'Para seleccionar materiales sin conexión, abre primero Materiales mientras tengas conexión.'**
+  String get ec08CatalogMissing;
+
+  /// No description provided for @ec08Quantity.
+  ///
+  /// In es, this message translates to:
+  /// **'Cantidad'**
+  String get ec08Quantity;
+
+  /// No description provided for @ec08Operation.
+  ///
+  /// In es, this message translates to:
+  /// **'Operación'**
+  String get ec08Operation;
+
+  /// No description provided for @ec08SaveDraft.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar borrador'**
+  String get ec08SaveDraft;
+
+  /// No description provided for @ec08SavedDrafts.
+  ///
+  /// In es, this message translates to:
+  /// **'Borradores guardados'**
+  String get ec08SavedDrafts;
+
+  /// No description provided for @ec08EmptyDrafts.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay borradores.'**
+  String get ec08EmptyDrafts;
+
+  /// No description provided for @ec08Pending.
+  ///
+  /// In es, this message translates to:
+  /// **'Pendiente de envío'**
+  String get ec08Pending;
+
+  /// No description provided for @ec08NeedsReview.
+  ///
+  /// In es, this message translates to:
+  /// **'Requiere revisión'**
+  String get ec08NeedsReview;
+
+  /// No description provided for @ec08SyncUnavailable.
+  ///
+  /// In es, this message translates to:
+  /// **'Los borradores están guardados en este dispositivo. El envío al servidor no está disponible en esta versión.'**
+  String get ec08SyncUnavailable;
+  /// Comprobar conexión
+  String get ec08CheckConnection;
+
+  /// Eliminar borrador local
+  String get ec08DeleteDraftTitle;
+
+  /// ¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.
+  String get ec08DeleteDraftMessage;
+
+  /// Borrador eliminado del dispositivo.
+  String get ec08DraftDeleted;
+
+
+  /// No description provided for @ec08Sync.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar borradores'**
+  String get ec08Sync;
+
+  /// No description provided for @ec08DraftSaved.
+  ///
+  /// In es, this message translates to:
+  /// **'Borrador guardado en este dispositivo.'**
+  String get ec08DraftSaved;
+
+  /// No description provided for @ec08DraftLoadError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudieron leer los borradores guardados. No se modificaron sus datos.'**
+  String get ec08DraftLoadError;
+
+  /// No description provided for @ec08CatalogLoadError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo leer el catálogo local. Abre Materiales con conexión antes de volver a intentarlo.'**
+  String get ec08CatalogLoadError;
+
+  /// No description provided for @ec08MaterialRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona un material válido.'**
+  String get ec08MaterialRequired;
+
+  /// No description provided for @ec08DraftSaveError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo guardar el borrador. Inténtalo nuevamente.'**
+  String get ec08DraftSaveError;
+
+  /// No description provided for @ec08SyncError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudieron enviar los borradores. Revisa su estado.'**
+  String get ec08SyncError;
+
+  /// No description provided for @ec08SyncReview.
+  ///
+  /// In es, this message translates to:
+  /// **'El envío se interrumpió. Comprueba el historial antes de reintentar.'**
+  String get ec08SyncReview;
+
+  /// No description provided for @ec08ReviewTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Comprobar duplicados antes de repetir'**
+  String get ec08ReviewTitle;
+
+  /// No description provided for @ec08ReviewMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Comprueba el historial: si el movimiento ya llegó al servidor, no lo reenvíes. ¿Confirmas que verificaste que no existe?'**
+  String get ec08ReviewMessage;
+
+  /// No description provided for @ec08ReviewConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar revisión'**
+  String get ec08ReviewConfirm;
+
+  /// No description provided for @ec08Sent.
+  ///
+  /// In es, this message translates to:
+  /// **'Movimientos confirmados:'**
+  String get ec08Sent;
 }
 
 class _AppLocalizationsDelegate

@@ -62,3 +62,22 @@ class MaterialUsageRequest {
   final DateTime occurredAt;
   final String note;
 }
+
+/// A stable request id allows the server to safely deduplicate offline retries.
+class OfflineMovementRequest {
+  const OfflineMovementRequest({
+    required this.clientRequestId,
+    required this.type,
+    required this.quantity,
+    required this.supplier,
+    required this.occurredAt,
+    required this.note,
+  });
+
+  final String clientRequestId;
+  final MovementType type;
+  final double quantity;
+  final String supplier;
+  final DateTime occurredAt;
+  final String note;
+}

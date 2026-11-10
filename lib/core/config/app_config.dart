@@ -1,6 +1,6 @@
 abstract final class AppConfig {
   static const productionApiBaseUrl =
-      'https://arquitech-backend-production.up.railway.app/api/v1';
+      'https://arquitech-backend-production-cfc2.up.railway.app/api/v1';
   static const apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
     defaultValue: productionApiBaseUrl,

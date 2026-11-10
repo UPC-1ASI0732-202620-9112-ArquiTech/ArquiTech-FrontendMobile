@@ -8,6 +8,7 @@ import '../../features/incidents/presentation/pages/incidents_page.dart';
 import '../../features/machinery/presentation/pages/machinery_page.dart';
 import '../../features/materials/presentation/pages/material_history_page.dart';
 import '../../features/materials/presentation/pages/materials_page.dart';
+import '../../features/materials/presentation/pages/ec08_drafts_page.dart';
 import '../../features/profile/presentation/pages/more_page.dart';
 import '../../features/projects/presentation/controllers/project_context_controller.dart';
 import '../../features/projects/presentation/pages/create_project_page.dart';
@@ -83,6 +84,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/projects/:projectId/materials',
             builder: (_, state) => MaterialsPage(
+              projectId: int.parse(state.pathParameters['projectId']!),
+            ),
+          ),
+          GoRoute(
+            path: '/projects/:projectId/materials/ec08-drafts',
+            builder: (_, state) => Ec08DraftsPage(
               projectId: int.parse(state.pathParameters['projectId']!),
             ),
           ),

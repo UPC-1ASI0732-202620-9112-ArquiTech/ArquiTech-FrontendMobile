@@ -1,0 +1,2 @@
+# Preserve the bytes listed in the EC08 evidence manifest across checkouts.
+docs/evidence/ec08/** -text whitespace=cr-at-eol

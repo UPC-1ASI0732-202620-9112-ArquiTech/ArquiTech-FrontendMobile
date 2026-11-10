@@ -40,3 +40,14 @@ extension MaterialUsageJson on MaterialUsageRequest {
     'note': note,
   };
 }
+
+extension OfflineMovementJson on OfflineMovementRequest {
+  Map<String, dynamic> toJson() => {
+    'clientRequestId': clientRequestId,
+    'type': type.apiValue,
+    'quantity': quantity,
+    'supplier': type == MovementType.entry ? supplier : null,
+    'occurredAt': AppDateUtils.utcIso(occurredAt),
+    'note': note,
+  };
+}

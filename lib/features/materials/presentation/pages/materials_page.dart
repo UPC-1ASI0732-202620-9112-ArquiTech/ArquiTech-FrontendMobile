@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../app/localization/localization_context.dart';
 import '../../../../core/errors/error_mapper.dart';
@@ -11,6 +12,7 @@ import '../../../../core/widgets/app_loading.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../domain/entities/material.dart' as domain;
 import '../../domain/entities/material_movement.dart';
+import '../../data/ec08_material_catalog.dart';
 import '../controllers/materials_controller.dart';
 import '../../../reports/presentation/widgets/alerts_button.dart';
 import '../widgets/material_card.dart';
@@ -26,11 +28,30 @@ class MaterialsPage extends ConsumerWidget {
     final state = ref.watch(materialsControllerProvider(projectId));
     final role = ref.watch(sessionControllerProvider).user?.role;
     final canWrite = role != null && RolePermissions.canWriteMaterials(role);
+    final userId = ref.watch(sessionControllerProvider).user?.id;
+
+    // Cache the latest catalog while online so EC08 can select materials offline.
+    ref.listen(materialsControllerProvider(projectId), (_, next) {
+      final materials = next.asData?.value;
+      if (materials == null || userId == null) return;
+      SharedPreferences.getInstance()
+          .then((prefs) => Ec08MaterialCatalog(prefs).save(userId, projectId, materials))
+          .catchError((Object error) {
+            debugPrint('Offline material catalog could not be saved: $error');
+          });
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.materials),
         actions: [
           AlertsButton(projectId: projectId),
+          if (canWrite)
+            IconButton(
+              tooltip: context.l10n.ec08PageTitle,
+              icon: const Icon(Icons.offline_pin_outlined),
+              onPressed: () => context.push('/projects/$projectId/materials/ec08-drafts'),
+            ),
           IconButton(
             tooltip: context.l10n.history,
             onPressed: () =>
