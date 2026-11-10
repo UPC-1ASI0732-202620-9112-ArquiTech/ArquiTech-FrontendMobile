@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "materialId": 1,
+    "projectId": 1,
+    "materialName": "Material EC08",
+    "unit": "kg",
+    "type": "ENTRY",
+    "quantity": 1000.0,
+    "supplier": "Proveedor EC08",
+    "registeredByUserId": 1,
+    "registeredByName": "EC08 Supervisor",
+    "occurredAt": "2026-11-01T00:00:00Z",
+    "note": "Initial inventory"
+  },
+  {
+    "id": 43,
+    "materialId": 1,
+    "projectId": 1,
+    "materialName": "Material EC08",
+    "unit": "kg",
+    "type": "USAGE",
+    "quantity": 1.0,
+    "supplier": null,
+    "registeredByUserId": 1,
+    "registeredByName": "EC08 Supervisor",
+    "occurredAt": "2026-11-10T12:34:43.924669Z",
+    "note": ""
+  }
+]

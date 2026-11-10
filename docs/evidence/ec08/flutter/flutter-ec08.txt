@@ -1,0 +1,9 @@
+00:00 +0: loading <checkout>/test/materials/ec08_draft_store_test.dart
+00:00 +0: stores and reloads offline drafts in shared preferences
+00:00 +1: requires review before retrying an uncertain request
+00:00 +2: rejects duplicate draft identifiers
+00:00 +3: isolates drafts from different projects
+00:00 +4: retains five offline records until each movement is confirmed
+00:00 +5: does not silently erase corrupted drafts
+00:00 +6: reloads 40 distinct drafts without changing their fields
+00:00 +7: All tests passed!

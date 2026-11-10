@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+/.ec08-backup/
 
 # Symbolication related
 app.*.symbols

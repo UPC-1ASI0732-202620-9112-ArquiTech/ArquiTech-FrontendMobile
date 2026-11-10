@@ -1,0 +1,102 @@
+00:00 +0: loading <checkout>/test/attendance/attendance_flows_test.dart
+00:00 +0: <checkout>/test/attendance/attendance_test.dart: Parses every attendance status, optional times and server-managed fields
+00:00 +1: <checkout>/test/attendance/attendance_test.dart: Unknown attendance status is rejected
+00:00 +2: <checkout>/test/attendance/attendance_test.dart: Attendance payload preserves LocalDate and serializes UTC, excludes authority and project on update
+00:00 +3: <checkout>/test/attendance/attendance_test.dart: Attendance time rules allow overnight shifts and reject inconsistent states
+00:00 +4: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +5: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +6: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +7: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +8: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +9: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +10: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +11: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:00 +12: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +13: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +14: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +15: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +16: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +17: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +18: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +19: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:01 +20: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +21: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +22: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +23: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +24: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +25: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +26: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +27: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +28: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +29: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +30: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +31: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +32: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +33: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +34: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +35: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:02 +36: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +37: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +38: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +39: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +40: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +41: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +42: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +43: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +44: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +45: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +46: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +47: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +48: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:03 +49: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:04 +50: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:04 +51: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:04 +52: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor records attendance with project and selected worker
+00:04 +53: <checkout>/test/navigation/app_route_guard_test.dart: navigation without session redirects to login
+00:04 +54: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:04 +55: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:04 +56: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:04 +57: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +58: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +59: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +60: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +61: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +62: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:05 +63: <checkout>/test/attendance/attendance_flows_test.dart: Supervisor deletion requires exact project name and clears selected project
+00:06 +64: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:06 +65: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:06 +66: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:06 +67: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:06 +68: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:06 +69: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +70: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +71: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +72: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +73: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +74: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +75: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +76: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +77: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +78: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +79: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +80: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +81: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:07 +82: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:09 +83: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:09 +84: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:09 +85: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:09 +86: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:09 +87: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +88: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +89: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +90: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +91: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +92: <checkout>/test/navigation/router_integration_test.dart: Integrated SUPERVISOR routes, project context and logout
+00:10 +93: <checkout>/test/widgets/role_flows_test.dart: Supervisor creates Worker through form, with project from context
+00:11 +94: <checkout>/test/navigation/router_integration_test.dart: Integrated CONTRACTOR routes, project context and logout
+00:12 +95: <checkout>/test/navigation/router_integration_test.dart: Integrated CONTRACTOR routes, project context and logout
+00:12 +96: <checkout>/test/navigation/router_integration_test.dart: Integrated CONTRACTOR routes, project context and logout
+00:12 +97: <checkout>/test/navigation/router_integration_test.dart: Integrated CONTRACTOR routes, project context and logout
+00:12 +98: <checkout>/test/navigation/router_integration_test.dart: Integrated CONTRACTOR routes, project context and logout
+00:13 +99: <checkout>/test/navigation/router_integration_test.dart: Protected deep link is rejected after session expiration
+00:13 +100: All tests passed!

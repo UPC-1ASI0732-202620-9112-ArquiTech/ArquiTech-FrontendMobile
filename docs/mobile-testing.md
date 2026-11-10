@@ -69,3 +69,7 @@ La suite ahora contiene 93 tests. Se añadieron parsing/estados de asistencia, h
 Recorrido adicional: Personal → menú → Asistencia; registrar trabajador/fecha, editar y consultar historial; intentar duplicar; verificar que trabajador INACTIVE conserva historial sin recibir nuevos registros. Para eliminar una obra, ir a Proyectos y escribir su nombre en la confirmación. Probar primero con una obra de pruebas: elimina también sus datos asociados.
 
 Resultado final de esta ampliación: dart format . y flutter pub get aprobados; flutter analyze sin problemas; flutter test con 93 pruebas aprobadas; APK debug actualizado generado correctamente; git diff --check sin errores.
+
+## Evaluación experimental Mobile
+
+- [EC08 · Borradores sin conexión y sincronización](ec08-mobile-evaluation.md)
