@@ -54,6 +54,24 @@ void main() {
     expect(store.load(11).length, 1);
   });
 
+  test('retains five offline records until each movement is confirmed', () async {
+    final store = Ec08DraftStore(await SharedPreferences.getInstance());
+    for (var index = 1; index <= 5; index++) {
+      await store.add(exampleDraft(id: 'record-$index'));
+    }
+    expect(store.load(11).length, 5);
+
+    // An interrupted request is left in review instead of being erased.
+    final uncertain = store.load(11).first;
+    await store.updateState(uncertain, 'review');
+    expect(store.load(11).length, 5);
+    expect(store.load(11).first.state, 'review');
+
+    // Only a confirmation explicitly removes the saved entry.
+    await store.remove(uncertain);
+    expect(store.load(11).length, 4);
+  });
+
   test('does not silently erase corrupted drafts', () async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(Ec08DraftStore.key(11), 'not json');
