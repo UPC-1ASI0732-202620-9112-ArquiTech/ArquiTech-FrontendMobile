@@ -57,6 +57,23 @@ class MaterialRemoteDataSource {
     return _movementFrom(data);
   }
 
+  Future<bool> supportsOfflineSync() async {
+    final data = await _client.get(ApiEndpoints.offlineSyncCapabilities);
+    if (data is! Map) return false;
+    return data['idempotentOfflineMovements'] == true;
+  }
+
+  Future<MaterialMovement> registerOfflineMovement(
+    int materialId,
+    OfflineMovementRequest request,
+  ) async {
+    final data = await _client.post(
+      ApiEndpoints.offlineMovement(materialId),
+      data: request.toJson(),
+    );
+    return _movementFrom(data);
+  }
+
   Future<List<MaterialMovement>> getHistory(int projectId) async {
     final data = await _client.get(
       ApiEndpoints.materialHistory(projectId),
