@@ -672,7 +672,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ec08NeedsReview => 'Requiere revisión';
 
   @override
-  String get ec08SyncUnavailable => 'Los borradores están guardados en este dispositivo. El envío al servidor no está disponible en esta versión.';
+  String get ec08SyncUnavailable => 'Los borradores están guardados. El envío se habilitará cuando el servidor confirme que admite sincronización segura.';
+
+  @override
+  String get ec08CheckConnection => 'Comprobar conexión';
+
+  @override
+  String get ec08DeleteDraftTitle => 'Eliminar borrador local';
+
+  @override
+  String get ec08DeleteDraftMessage => '¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.';
+
+  @override
+  String get ec08DraftDeleted => 'Borrador eliminado del dispositivo.';
 
   @override
   String get ec08Sync => 'Enviar borradores';
