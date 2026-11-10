@@ -78,4 +78,33 @@ void main() {
     final store = Ec08DraftStore(prefs);
     expect(() => store.load(11), throwsFormatException);
   });
+
+  test('reloads 40 distinct drafts without changing their fields', () async {
+    final prefs = await SharedPreferences.getInstance();
+    final store = Ec08DraftStore(prefs);
+    final drafts = List.generate(
+      40,
+      (index) => Ec08Draft(
+        id: 'record-${index + 1}',
+        projectId: 11,
+        materialId: 4 + index % 3,
+        type: index.isEven ? 'ENTRY' : 'USAGE',
+        quantity: (index + 1) / 4,
+        supplier: index.isEven ? 'Proveedor de ensayo $index' : '',
+        occurredAt: DateTime.utc(2026, 11, 10, 10, index),
+        state: 'pending',
+      ),
+    );
+    for (final draft in drafts) {
+      await store.add(draft);
+    }
+
+    await prefs.reload();
+    final restored = Ec08DraftStore(prefs).load(11);
+    expect(
+      restored.map((draft) => draft.toJson()),
+      drafts.map((draft) => draft.toJson()),
+    );
+    expect(restored.map((draft) => draft.id).toSet(), hasLength(40));
+  });
 }
