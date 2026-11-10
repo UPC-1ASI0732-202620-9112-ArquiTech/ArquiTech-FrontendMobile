@@ -1,6 +1,6 @@
 # ArquiTech Mobile
 
-Aplicación Flutter de gestión de obras para Supervisor y Contractor. Continúa la Parte 1 sin reemplazar su arquitectura, router, sesión ni cliente HTTP.
+Aplicación Flutter para la gestión de obras de ArquiTech, con acceso diferenciado para supervisores y contratantes. La implementación mantiene los servicios existentes de autenticación, navegación y comunicación con la API.
 
 ## Requisitos y ejecución
 
@@ -30,15 +30,15 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8080/api/v1
 
 Android permite tráfico HTTP solo a `10.0.2.2`; el resto requiere HTTPS. La aplicación declara permiso INTERNET también para builds release. Las cuentas se administran mediante el Backend; no hay credenciales incluidas en la app.
 
-### EC08 · Guardado local de movimientos
+### Movimientos sin conexión (EC08)
 
-En la rama `experiment/ab-evaluation`, el supervisor puede abrir **Movimientos sin conexión** desde Materiales. La lista de materiales del proyecto se conserva localmente cuando el inventario se carga con conexión, de modo que los borradores se pueden crear por nombre y unidad incluso sin red. El catálogo de selección está aislado por usuario y proyecto; los borradores mantienen su almacenamiento persistente por proyecto.
+En la versión de evaluación de EC08, el supervisor accede a **Movimientos sin conexión** desde Materiales. Al consultar el inventario con conectividad, la aplicación conserva un catálogo local con los nombres y las unidades de cada material. Esto permite preparar movimientos cuando no hay acceso a internet. El catálogo se organiza por usuario y proyecto, y los borradores se guardan de forma persistente en el dispositivo.
 
-La sincronización **solo se habilita cuando el servidor anuncia** `idempotentOfflineMovements: true` a través de `GET /api/v1/materials/offline-sync-capabilities`. Los servidores anteriores no admiten envíos de EC08. El botón «Comprobar conexión» y una comprobación periódica detectan la compatibilidad al recuperar internet.
+La aplicación habilita **Enviar borradores** únicamente si el servidor confirma `idempotentOfflineMovements: true` mediante `GET /api/v1/materials/offline-sync-capabilities`. El usuario puede consultar el estado con «Comprobar conexión»; la aplicación también realiza verificaciones periódicas. Si la capacidad no está disponible, los borradores permanecen guardados y no se envían.
 
-Cada borrador conserva su `clientRequestId` hasta obtener confirmación del endpoint `POST /api/v1/materials/{id}/offline-movements`. Si se pierde una respuesta, el borrador puede reenviarse sin aplicar el movimiento dos veces: el Backend devuelve el movimiento ya registrado. Un conflicto de contenido requiere revisión manual, y los borradores pueden descartarse localmente con confirmación. Las colas existentes conservan sus registros. El **PR del Backend** que implementa este contrato debe validarse y desplegarse antes de activar envíos contra Railway.
+Cada borrador mantiene su `clientRequestId` hasta recibir la confirmación de `POST /api/v1/materials/{id}/offline-movements`. El backend puede reconocer un reintento del mismo movimiento sin descontar o aumentar las existencias por duplicado. Los conflictos de contenido requieren revisión y la eliminación de borradores locales solicita confirmación. El contrato del backend está incorporado en la rama `main`, pero su publicación en Railway y la validación conjunta con Mobile deben verificarse antes de habilitar envíos sobre el inventario del servidor.
 
-Para validar el protocolo de extremo a extremo, se recomienda un Backend y una base de datos aislados, usando datos de pruebas y verificando historial, saldos y reintentos antes de desplegarlo en Railway.
+La validación de extremo a extremo debe comprobar el historial, los saldos, los reintentos y la integridad de los datos en un entorno de pruebas aislado antes de habilitar el envío en producción.
 
 La pantalla y su acceso desde Materiales respetan el idioma ES/EN y las restricciones del rol supervisor.
 
