@@ -1381,6 +1381,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Los borradores están guardados en este dispositivo. El envío al servidor no está disponible en esta versión.'**
   String get ec08SyncUnavailable;
+  /// Comprobar conexión
+  String get ec08CheckConnection;
+
+  /// Eliminar borrador local
+  String get ec08DeleteDraftTitle;
+
+  /// ¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.
+  String get ec08DeleteDraftMessage;
+
+  /// Borrador eliminado del dispositivo.
+  String get ec08DraftDeleted;
+
 
   /// No description provided for @ec08Sync.
   ///
