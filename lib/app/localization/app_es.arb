@@ -213,7 +213,7 @@
   "ec08EmptyDrafts": "Todavía no hay borradores.",
   "ec08Pending": "Pendiente de envío",
   "ec08NeedsReview": "Requiere revisión",
-  "ec08SyncUnavailable": "Los borradores están guardados en este dispositivo. El envío al servidor no está disponible en esta versión.",
+  "ec08SyncUnavailable": "Los borradores están guardados. El envío se habilitará cuando el servidor confirme que admite sincronización segura.",
   "ec08Sync": "Enviar borradores",
   "ec08DraftSaved": "Borrador guardado en este dispositivo.",
   "ec08DraftLoadError": "No se pudieron leer los borradores guardados. No se modificaron sus datos.",
@@ -225,5 +225,9 @@
   "ec08ReviewTitle": "Comprobar duplicados antes de repetir",
   "ec08ReviewMessage": "Comprueba el historial: si el movimiento ya llegó al servidor, no lo reenvíes. ¿Confirmas que verificaste que no existe?",
   "ec08ReviewConfirm": "Confirmar revisión",
-  "ec08Sent": "Movimientos confirmados:"
+  "ec08Sent": "Movimientos confirmados:",
+  "ec08CheckConnection": "Comprobar conexión",
+  "ec08DeleteDraftTitle": "Eliminar borrador local",
+  "ec08DeleteDraftMessage": "¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.",
+  "ec08DraftDeleted": "Borrador eliminado del dispositivo."
 }
