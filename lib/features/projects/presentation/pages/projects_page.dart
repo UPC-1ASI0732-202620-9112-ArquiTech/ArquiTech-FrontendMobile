@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/locale_controller.dart';
 import '../../../../app/localization/localization_context.dart';
+import '../../../../core/experiments/experiment_event.dart';
+import '../../../../core/experiments/experiment_tracking_provider.dart';
 import '../../../../core/utils/role_permissions.dart';
 import '../../../../core/widgets/app_empty_view.dart';
 import '../../../../core/widgets/app_error_view.dart';
@@ -110,6 +112,11 @@ class ProjectsPage extends ConsumerWidget {
                             }
                           : null,
                       onTap: () async {
+                        ref
+                            .read(experimentTrackerProvider)
+                            .startProjectConsultation(
+                              condition: ExperimentCondition.a,
+                            );
                         await ref
                             .read(projectContextProvider.notifier)
                             .select(project);

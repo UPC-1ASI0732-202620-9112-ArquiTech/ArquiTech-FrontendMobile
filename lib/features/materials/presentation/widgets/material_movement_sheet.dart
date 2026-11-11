@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/localization/localization_context.dart';
 import '../../../../core/errors/error_mapper.dart';
+import '../../../../core/experiments/experiment_event.dart';
+import '../../../../core/experiments/experiment_tracker.dart';
+import '../../../../core/experiments/experiment_tracking_provider.dart';
 import '../../domain/entities/material.dart' as domain;
 import '../../domain/entities/material_movement.dart';
 import '../controllers/materials_controller.dart';
@@ -164,7 +167,28 @@ class _MaterialMovementSheetState extends ConsumerState<MaterialMovementSheet> {
   }
 
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+    if (_submitting) return;
+    final tracker = ref.read(experimentTrackerProvider);
+    final attempt = tracker.startMaterialOperation(
+      condition: ExperimentCondition.a,
+      operationType: isEntry
+          ? ExperimentOperationType.entry
+          : ExperimentOperationType.usage,
+    );
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      final parsedAmount = double.tryParse(_quantity.text);
+      final isInsufficientStock =
+          !isEntry &&
+          parsedAmount != null &&
+          parsedAmount > 0 &&
+          !widget.material.canUse(parsedAmount);
+      attempt.failValidation(
+        errorCategory: isInsufficientStock
+            ? ExperimentErrorCategory.insufficientStock
+            : ExperimentErrorCategory.validation,
+      );
+      return;
+    }
     setState(() => _submitting = true);
     final controller = ref.read(
       materialsControllerProvider(widget.projectId).notifier,
@@ -190,8 +214,10 @@ class _MaterialMovementSheetState extends ConsumerState<MaterialMovementSheet> {
           ),
         );
       }
+      attempt.complete();
       if (mounted) Navigator.of(context).pop(true);
     } on Object catch (error) {
+      attempt.failApi(errorCategory: ExperimentTracker.classifyError(error));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(ErrorMapper.message(context.l10n, error))),

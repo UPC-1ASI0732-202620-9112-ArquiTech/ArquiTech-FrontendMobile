@@ -6,6 +6,9 @@ import 'package:printing/printing.dart';
 
 import '../../../../app/localization/localization_context.dart';
 import '../../../../core/errors/error_mapper.dart';
+import '../../../../core/experiments/experiment_event.dart';
+import '../../../../core/experiments/experiment_tracker.dart';
+import '../../../../core/experiments/experiment_tracking_provider.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../../../core/widgets/localized_value.dart';
 import '../../domain/entities/week_range.dart';
@@ -24,6 +27,36 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
   DateTime date = WeekRange(DateTime.now()).start;
   bool printing = false;
   String day(DateTime d) => d.toLocal().toIso8601String().split('T').first;
+
+  @override
+  void initState() {
+    super.initState();
+    _trackConsultationForDate(date);
+  }
+
+  void _trackConsultationForDate(
+    DateTime targetDate, {
+    bool forceNewAttempt = false,
+  }) {
+    final tracker = ref.read(experimentTrackerProvider);
+    final attempt = tracker.acquireProjectConsultation(
+      condition: ExperimentCondition.a,
+      forceNew: forceNewAttempt,
+    );
+    ref
+        .read(weeklyReportProvider(targetDate).future)
+        .then(
+          (_) => attempt.loaded(),
+          onError: (Object error, StackTrace _) => attempt.failApi(
+            errorCategory: ExperimentTracker.classifyError(error),
+          ),
+        );
+  }
+
+  void _selectWeek(DateTime nextDate) {
+    setState(() => date = nextDate);
+    _trackConsultationForDate(nextDate, forceNewAttempt: true);
+  }
   Widget section(String title, List<String> rows) => Semantics(
     container: true,
     explicitChildNodes: true,
@@ -44,6 +77,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
     ),
   );
   Future<void> printReport(WeeklyReport report) async {
+    ref
+        .read(experimentTrackerProvider)
+        .recordProjectReportOpened(condition: ExperimentCondition.a);
     setState(() => printing = true);
     final l = context.l10n;
     try {
@@ -136,21 +172,20 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
             children: [
               IconButton(
                 tooltip: context.l10n.previousWeek,
-                onPressed: () => setState(
-                  () => date = DateTime(date.year, date.month, date.day - 7),
-                ),
+                onPressed: () =>
+                    _selectWeek(DateTime(date.year, date.month, date.day - 7)),
                 icon: const Icon(Icons.chevron_left),
               ),
               TextButton(
                 onPressed: () =>
-                    setState(() => date = WeekRange(DateTime.now()).start),
+                    _selectWeek(WeekRange(DateTime.now()).start),
                 child: Text(context.l10n.currentWeek),
               ),
               IconButton(
                 tooltip: context.l10n.nextWeek,
                 onPressed: date.isBefore(WeekRange(DateTime.now()).start)
-                    ? () => setState(
-                        () => date = DateTime(
+                    ? () => _selectWeek(
+                        DateTime(
                           date.year,
                           date.month,
                           date.day + 7,
@@ -169,7 +204,7 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                     lastDate: DateTime.now(),
                   );
                   if (selected != null && mounted) {
-                    setState(() => date = WeekRange(selected).start);
+                    _selectWeek(WeekRange(selected).start);
                   }
                 },
                 icon: const Icon(Icons.calendar_month),
@@ -186,11 +221,15 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   error: (e, _) => AppErrorView(
                     message: ErrorMapper.message(context.l10n, e),
                     retryLabel: context.l10n.retry,
-                    onRetry: () => ref.invalidate(provider),
+                    onRetry: () {
+                      ref.invalidate(provider);
+                      _trackConsultationForDate(date, forceNewAttempt: true);
+                    },
                   ),
                   data: (r) => RefreshIndicator(
                     onRefresh: () async {
                       ref.invalidate(provider);
+                      _trackConsultationForDate(date, forceNewAttempt: true);
                       await ref.read(provider.future);
                     },
                     child: reportView(r),

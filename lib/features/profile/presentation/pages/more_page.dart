@@ -9,6 +9,8 @@ import '../../../../app/localization/localization_context.dart';
 import '../../../auth/presentation/controllers/session_controller.dart';
 import '../../../reports/presentation/widgets/alerts_button.dart';
 import '../../../projects/presentation/controllers/project_context_controller.dart';
+import '../../../../core/experiments/experiment_event.dart';
+import '../../../../core/experiments/experiment_tracking_provider.dart';
 
 class MorePage extends ConsumerWidget {
   const MorePage({super.key, required this.projectId});
@@ -28,7 +30,14 @@ class MorePage extends ConsumerWidget {
         ListTile(
           leading: const Icon(Icons.description),
           title: Text(context.l10n.reports),
-          onTap: () => context.push('/projects/$projectId/reports'),
+          onTap: () {
+            ref
+                .read(experimentTrackerProvider)
+                .openProjectReportFromNavigation(
+                  condition: ExperimentCondition.a,
+                );
+            context.push('/projects/$projectId/reports');
+          },
         ),
         ListTile(
           leading: const Icon(Icons.person),
