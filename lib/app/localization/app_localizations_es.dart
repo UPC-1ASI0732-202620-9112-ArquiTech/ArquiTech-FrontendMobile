@@ -642,13 +642,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ec08PageTitle => 'Movimientos sin conexión';
 
   @override
-  String get ec08Description => 'Guarda movimientos en este dispositivo para revisarlos cuando vuelvas a tener conexión.';
+  String get ec08Description =>
+      'Guarda movimientos en este dispositivo para revisarlos cuando vuelvas a tener conexión.';
 
   @override
-  String get ec08SupervisorOnly => 'Solo un supervisor puede registrar movimientos.';
+  String get ec08SupervisorOnly =>
+      'Solo un supervisor puede registrar movimientos.';
 
   @override
-  String get ec08CatalogMissing => 'Para seleccionar materiales sin conexión, abre primero Materiales mientras tengas conexión.';
+  String get ec08CatalogMissing =>
+      'Para seleccionar materiales sin conexión, abre primero Materiales mientras tengas conexión.';
 
   @override
   String get ec08Quantity => 'Cantidad';
@@ -672,19 +675,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ec08NeedsReview => 'Requiere revisión';
 
   @override
-  String get ec08SyncUnavailable => 'Los borradores están guardados. El envío se habilitará cuando el servidor confirme que admite sincronización segura.';
-
-  @override
-  String get ec08CheckConnection => 'Comprobar conexión';
-
-  @override
-  String get ec08DeleteDraftTitle => 'Eliminar borrador local';
-
-  @override
-  String get ec08DeleteDraftMessage => '¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.';
-
-  @override
-  String get ec08DraftDeleted => 'Borrador eliminado del dispositivo.';
+  String get ec08SyncUnavailable =>
+      'Los borradores están guardados. El envío se habilitará cuando el servidor confirme que admite sincronización segura.';
 
   @override
   String get ec08Sync => 'Enviar borradores';
@@ -693,28 +685,34 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ec08DraftSaved => 'Borrador guardado en este dispositivo.';
 
   @override
-  String get ec08DraftLoadError => 'No se pudieron leer los borradores guardados. No se modificaron sus datos.';
+  String get ec08DraftLoadError =>
+      'No se pudieron leer los borradores guardados. No se modificaron sus datos.';
 
   @override
-  String get ec08CatalogLoadError => 'No se pudo leer el catálogo local. Abre Materiales con conexión antes de volver a intentarlo.';
+  String get ec08CatalogLoadError =>
+      'No se pudo leer el catálogo local. Abre Materiales con conexión antes de volver a intentarlo.';
 
   @override
   String get ec08MaterialRequired => 'Selecciona un material válido.';
 
   @override
-  String get ec08DraftSaveError => 'No se pudo guardar el borrador. Inténtalo nuevamente.';
+  String get ec08DraftSaveError =>
+      'No se pudo guardar el borrador. Inténtalo nuevamente.';
 
   @override
-  String get ec08SyncError => 'No se pudieron enviar los borradores. Revisa su estado.';
+  String get ec08SyncError =>
+      'No se pudieron enviar los borradores. Revisa su estado.';
 
   @override
-  String get ec08SyncReview => 'El envío se interrumpió. Comprueba el historial antes de reintentar.';
+  String get ec08SyncReview =>
+      'El envío se interrumpió. Comprueba el historial antes de reintentar.';
 
   @override
   String get ec08ReviewTitle => 'Comprobar duplicados antes de repetir';
 
   @override
-  String get ec08ReviewMessage => 'Comprueba el historial: si el movimiento ya llegó al servidor, no lo reenvíes. ¿Confirmas que verificaste que no existe?';
+  String get ec08ReviewMessage =>
+      'Comprueba el historial: si el movimiento ya llegó al servidor, no lo reenvíes. ¿Confirmas que verificaste que no existe?';
 
   @override
   String get ec08ReviewConfirm => 'Confirmar revisión';
@@ -722,4 +720,16 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get ec08Sent => 'Movimientos confirmados:';
 
+  @override
+  String get ec08CheckConnection => 'Comprobar conexión';
+
+  @override
+  String get ec08DeleteDraftTitle => 'Eliminar borrador local';
+
+  @override
+  String get ec08DeleteDraftMessage =>
+      '¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.';
+
+  @override
+  String get ec08DraftDeleted => 'Borrador eliminado del dispositivo.';
 }

@@ -1379,20 +1379,8 @@ abstract class AppLocalizations {
   /// No description provided for @ec08SyncUnavailable.
   ///
   /// In es, this message translates to:
-  /// **'Los borradores están guardados en este dispositivo. El envío al servidor no está disponible en esta versión.'**
+  /// **'Los borradores están guardados. El envío se habilitará cuando el servidor confirme que admite sincronización segura.'**
   String get ec08SyncUnavailable;
-  /// Comprobar conexión
-  String get ec08CheckConnection;
-
-  /// Eliminar borrador local
-  String get ec08DeleteDraftTitle;
-
-  /// ¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.
-  String get ec08DeleteDraftMessage;
-
-  /// Borrador eliminado del dispositivo.
-  String get ec08DraftDeleted;
-
 
   /// No description provided for @ec08Sync.
   ///
@@ -1465,6 +1453,30 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Movimientos confirmados:'**
   String get ec08Sent;
+
+  /// No description provided for @ec08CheckConnection.
+  ///
+  /// In es, this message translates to:
+  /// **'Comprobar conexión'**
+  String get ec08CheckConnection;
+
+  /// No description provided for @ec08DeleteDraftTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar borrador local'**
+  String get ec08DeleteDraftTitle;
+
+  /// No description provided for @ec08DeleteDraftMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar este borrador del dispositivo? Esta acción no modifica el inventario del servidor.'**
+  String get ec08DeleteDraftMessage;
+
+  /// No description provided for @ec08DraftDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Borrador eliminado del dispositivo.'**
+  String get ec08DraftDeleted;
 }
 
 class _AppLocalizationsDelegate

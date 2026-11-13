@@ -636,13 +636,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ec08PageTitle => 'Offline movements';
 
   @override
-  String get ec08Description => 'Save movements on this device and review them when you are back online.';
+  String get ec08Description =>
+      'Save movements on this device and review them when you are back online.';
 
   @override
-  String get ec08SupervisorOnly => 'Only a supervisor can record material movements.';
+  String get ec08SupervisorOnly =>
+      'Only a supervisor can record material movements.';
 
   @override
-  String get ec08CatalogMissing => 'To select materials offline, first open Materials while connected.';
+  String get ec08CatalogMissing =>
+      'To select materials offline, first open Materials while connected.';
 
   @override
   String get ec08Quantity => 'Quantity';
@@ -666,19 +669,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ec08NeedsReview => 'Needs review';
 
   @override
-  String get ec08SyncUnavailable => 'Drafts are saved locally. Upload will be enabled once the server confirms safe synchronization support.';
-
-  @override
-  String get ec08CheckConnection => 'Check connection';
-
-  @override
-  String get ec08DeleteDraftTitle => 'Delete local draft';
-
-  @override
-  String get ec08DeleteDraftMessage => 'Delete this draft from the device? This action does not change server inventory.';
-
-  @override
-  String get ec08DraftDeleted => 'Draft deleted from this device.';
+  String get ec08SyncUnavailable =>
+      'Drafts are saved locally. Upload will be enabled once the server confirms safe synchronization support.';
 
   @override
   String get ec08Sync => 'Upload drafts';
@@ -687,28 +679,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ec08DraftSaved => 'Draft saved on this device.';
 
   @override
-  String get ec08DraftLoadError => 'Could not read saved drafts. Their data was not changed.';
+  String get ec08DraftLoadError =>
+      'Could not read saved drafts. Their data was not changed.';
 
   @override
-  String get ec08CatalogLoadError => 'Could not read the offline catalog. Open Materials while connected before trying again.';
+  String get ec08CatalogLoadError =>
+      'Could not read the offline catalog. Open Materials while connected before trying again.';
 
   @override
   String get ec08MaterialRequired => 'Select a valid material.';
 
   @override
-  String get ec08DraftSaveError => 'Could not save the draft. Please try again.';
+  String get ec08DraftSaveError =>
+      'Could not save the draft. Please try again.';
 
   @override
   String get ec08SyncError => 'Could not upload drafts. Check their status.';
 
   @override
-  String get ec08SyncReview => 'Upload was interrupted. Check the history before retrying.';
+  String get ec08SyncReview =>
+      'Upload was interrupted. Check the history before retrying.';
 
   @override
   String get ec08ReviewTitle => 'Check for duplicates before retrying';
 
   @override
-  String get ec08ReviewMessage => 'Check the history: if the movement reached the server, do not resend it. Have you confirmed it is not already recorded?';
+  String get ec08ReviewMessage =>
+      'Check the history: if the movement reached the server, do not resend it. Have you confirmed it is not already recorded?';
 
   @override
   String get ec08ReviewConfirm => 'Confirm review';
@@ -716,4 +713,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ec08Sent => 'Confirmed movements:';
 
+  @override
+  String get ec08CheckConnection => 'Check connection';
+
+  @override
+  String get ec08DeleteDraftTitle => 'Delete local draft';
+
+  @override
+  String get ec08DeleteDraftMessage =>
+      'Delete this draft from the device? This action does not change server inventory.';
+
+  @override
+  String get ec08DraftDeleted => 'Draft deleted from this device.';
 }
